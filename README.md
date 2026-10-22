@@ -58,6 +58,10 @@ npm install @twextjs/twexthubkit
 
 You need Node.js 24 or newer, or a modern browser with `fetch`. No build step or extra packages are required.
 
+## 📚 Documentation
+
+Looking for the full API reference, authentication details, or development guide? See [the documentation](https://github.com/twextjs/twexthubkit/blob/devel/docs/README.md).
+
 ## 🔐 Authentication
 
 Public browsing works without a token. You only need one for actions such as updating a profile, publishing a version, reading notifications, or using admin tools.
