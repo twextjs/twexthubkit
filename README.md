@@ -300,7 +300,7 @@ try {
 }
 ```
 
-Every method accepts a final options argument with `signal` and `timeoutMs`:
+Single-resource and write methods accept a final options argument with `signal` and `timeoutMs`:
 
 ```js
 const controller = new AbortController();
@@ -308,7 +308,7 @@ const promise = th.users.get("kamix", { signal: controller.signal });
 controller.abort();
 ```
 
-Query-taking methods accept those options inside the query object instead:
+Methods that take a query object accept those options inside it:
 
 ```js
 await th.extensions.list({ limit: 20, signal: controller.signal, timeoutMs: 5000 });
