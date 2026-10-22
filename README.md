@@ -331,12 +331,17 @@ The package is ESM and has no runtime dependencies.
 
 ```bash
 npm install
-npm test              # Vitest against a local mock HTTP server
-npm run test:watch    # Vitest in watch mode
-npm run typecheck     # checks types/index.d.ts with a consumer file
-npm run product:check # product.yml, package.json, and src/product.js agree
-npm run check         # all of the above
+npx playwright install chromium  # once, for the browser project
+npm test                         # Node and Chromium browser projects
+npm run test:node                # Node project only
+npm run test:browser             # Chromium project only
+npm run test:watch               # Vitest in watch mode
+npm run typecheck                # checks types/index.d.ts with a consumer file
+npm run product:check            # product.yml, package.json, and src/product.js agree
+npm run check                    # all of the above
 ```
+
+The Node and browser suites both drive the SDK's own `fetch` client against a real local HTTP server, so Supertest is not used. The browser project starts its server from a Vitest global setup and enables CORS on it.
 
 `product.yml` holds the product name, version, tagline, homepage, and default API base URL. `src/product.js` is generated from it, and the version is checked against `package.json`; after changing either file, run:
 

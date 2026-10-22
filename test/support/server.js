@@ -3,9 +3,20 @@
 
 import http from 'node:http';
 
-export async function startServer(handler) {
+export async function startServer(handler, options = {}) {
   const requests = [];
   const server = http.createServer(async function (request, response) {
+    if (options.cors) {
+      response.setHeader('access-control-allow-origin', '*');
+      response.setHeader('access-control-allow-methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+      response.setHeader('access-control-allow-headers', 'authorization, content-type, accept');
+      if (request.method === 'OPTIONS') {
+        response.statusCode = 204;
+        response.end();
+        return;
+      }
+    }
+
     const chunks = [];
     for await (const chunk of request) {
       chunks.push(chunk);
@@ -30,7 +41,7 @@ export async function startServer(handler) {
   });
 
   await new Promise(function (resolve) {
-    server.listen(0, '127.0.0.1', resolve);
+    server.listen(options.port ?? 0, '127.0.0.1', resolve);
   });
   const address = server.address();
 
@@ -55,10 +66,4 @@ export function sendJson(response, status, body, headers = {}) {
     response.setHeader(name, value);
   }
   response.end(JSON.stringify(body));
-}
-
-export function delay(ms) {
-  return new Promise(function (resolve) {
-    setTimeout(resolve, ms);
-  });
 }
