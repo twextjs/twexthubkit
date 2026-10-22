@@ -26,12 +26,7 @@ export type TokenScope =
   | 'admin';
 
 export type ModerationStatus =
-  | 'staging'
-  | 'pending'
-  | 'published'
-  | 'rejected'
-  | 'yanked'
-  | 'deprecated';
+  'staging' | 'pending' | 'published' | 'rejected' | 'yanked' | 'deprecated';
 
 export type VersionStatus = ModerationStatus;
 export type SortOrder = 'recent' | 'downloads' | 'updated' | 'name';
@@ -65,12 +60,7 @@ export type NotificationKind =
 
 export type ReportTargetType = 'user' | 'organization' | 'extension';
 export type ReportReason =
-  | 'spam'
-  | 'harassment'
-  | 'malicious_code'
-  | 'copyright'
-  | 'impersonation'
-  | 'other';
+  'spam' | 'harassment' | 'malicious_code' | 'copyright' | 'impersonation' | 'other';
 export type ReportStatus = 'open' | 'resolved' | 'dismissed';
 
 export interface PageLinks {
@@ -635,12 +625,9 @@ export interface AuthResource {
   getOidcAuthorizeUrl(options?: OidcAuthorizeOptions): Promise<OidcAuthorizeResult>;
   oidcCallback(
     params: OidcCallbackParams,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<OidcCallbackResult | AuthSession | MfaRequired | RedirectResult | undefined>;
-  exchangeOidcCode(
-    payload: { code: string },
-    options?: RequestOptions
-  ): Promise<SessionResult>;
+  exchangeOidcCode(payload: { code: string }, options?: RequestOptions): Promise<SessionResult>;
   linkOidc(options?: OidcLinkOptions): Promise<OidcAuthorizeResult>;
   listOidcIdentities(options?: RequestOptions): Promise<Collection<OidcIdentity>>;
   deleteOidcIdentity(id: string | number, options?: RequestOptions): Promise<void>;
@@ -648,27 +635,27 @@ export interface AuthResource {
   createPasskeyOptions(options?: RequestOptions): Promise<{ options: WebAuthnOptions }>;
   registerPasskey(
     payload: { response: WebAuthnOptions; label?: string },
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<PasskeyRegistration>;
   renamePasskey(
     id: string | number,
     payload: { label: string },
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<Passkey>;
   deletePasskey(id: string | number, options?: RequestOptions): Promise<void>;
   regenerateBackupCodes(options?: RequestOptions): Promise<BackupCodes>;
   getSigninOptions(
     payload: { mfaToken: string },
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<{ options: WebAuthnOptions }>;
   verifyMfa(
     payload: { mfaToken: string; response?: WebAuthnOptions; backupCode?: string },
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<AuthSession>;
   getReauthOptions(options?: RequestOptions): Promise<{ options: WebAuthnOptions }>;
   reauth(
     payload: { response: WebAuthnOptions },
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<{ reauthenticatedAt: string }>;
 }
 
@@ -685,7 +672,7 @@ export interface TokensResource {
   update(
     id: string,
     payload: UpdateTokenPayload,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<AutomationToken>;
   delete(id: string, options?: RequestOptions): Promise<void>;
   revokeCurrent(options?: RequestOptions): Promise<void>;
@@ -696,19 +683,19 @@ export interface AccountWebhooksResource {
   create(
     namespace: string,
     payload: WebhookInput,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<WebhookCreated>;
   delete(namespace: string, webhookId: number, options?: RequestOptions): Promise<void>;
   listDeliveries(
     namespace: string,
     webhookId: number,
-    query?: PageQuery
+    query?: PageQuery,
   ): Promise<Page<WebhookDelivery>>;
   redeliver(
     namespace: string,
     webhookId: number,
     deliveryId: number,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<WebhookDelivery>;
 }
 
@@ -717,19 +704,19 @@ export interface OrganizationWebhooksResource {
   create(
     namespace: string,
     payload: WebhookInput,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<WebhookCreated>;
   delete(namespace: string, webhookId: number, options?: RequestOptions): Promise<void>;
   listDeliveries(
     namespace: string,
     webhookId: number,
-    query?: PageQuery
+    query?: PageQuery,
   ): Promise<Page<WebhookDelivery>>;
   redeliver(
     namespace: string,
     webhookId: number,
     deliveryId: number,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<WebhookDelivery>;
 }
 
@@ -739,26 +726,21 @@ export interface ExtensionWebhooksResource {
     namespace: string,
     id: string,
     payload: WebhookInput,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<WebhookCreated>;
-  delete(
-    namespace: string,
-    id: string,
-    webhookId: number,
-    options?: RequestOptions
-  ): Promise<void>;
+  delete(namespace: string, id: string, webhookId: number, options?: RequestOptions): Promise<void>;
   listDeliveries(
     namespace: string,
     id: string,
     webhookId: number,
-    query?: PageQuery
+    query?: PageQuery,
   ): Promise<Page<WebhookDelivery>>;
   redeliver(
     namespace: string,
     id: string,
     webhookId: number,
     deliveryId: number,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<WebhookDelivery>;
 }
 
@@ -770,11 +752,7 @@ export interface UserImageResource {
 
 export interface OrganizationImageResource {
   get(namespace: string, options?: ImageOptions): Promise<Blob>;
-  upload(
-    namespace: string,
-    data: BinaryData,
-    options?: UploadImageOptions
-  ): Promise<Organization>;
+  upload(namespace: string, data: BinaryData, options?: UploadImageOptions): Promise<Organization>;
   delete(namespace: string, options?: ImageOptions): Promise<Organization>;
 }
 
@@ -783,11 +761,7 @@ export interface UsersResource {
   list(query?: PageQuery): Promise<Page<User>>;
   get(namespace: string, options?: RequestOptions): Promise<User>;
   me(options?: RequestOptions): Promise<User>;
-  update(
-    namespace: string,
-    payload: UpdateUserPayload,
-    options?: RequestOptions
-  ): Promise<User>;
+  update(namespace: string, payload: UpdateUserPayload, options?: RequestOptions): Promise<User>;
   delete(namespace: string, options?: RequestOptions): Promise<void>;
   webhooks: AccountWebhooksResource;
   avatar: UserImageResource;
@@ -801,23 +775,13 @@ export interface OrgsResource {
   update(
     namespace: string,
     payload: UpdateOrganizationPayload,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<Organization>;
   delete(namespace: string, options?: RequestOptions): Promise<void>;
-  listOwners(
-    namespace: string,
-    options?: RequestOptions
-  ): Promise<Collection<OrganizationOwner>>;
+  listOwners(namespace: string, options?: RequestOptions): Promise<Collection<OrganizationOwner>>;
   addOwner(namespace: string, ownerNamespace: string, options?: RequestOptions): Promise<void>;
-  removeOwner(
-    namespace: string,
-    ownerNamespace: string,
-    options?: RequestOptions
-  ): Promise<void>;
-  listExtensions(
-    namespace: string,
-    query?: ExtensionListQuery
-  ): Promise<Page<ExtensionSummary>>;
+  removeOwner(namespace: string, ownerNamespace: string, options?: RequestOptions): Promise<void>;
+  listExtensions(namespace: string, query?: ExtensionListQuery): Promise<Page<ExtensionSummary>>;
   webhooks: OrganizationWebhooksResource;
   avatar: OrganizationImageResource;
   banner: OrganizationImageResource;
@@ -827,7 +791,7 @@ export interface NotificationsResource {
   list(query?: NotificationListQuery): Promise<NotificationPage>;
   markRead(
     payload: { ids: Array<string | number> } | { all: true },
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<MarkNotificationsReadResult>;
   markOneRead(id: string, options?: RequestOptions): Promise<Notification>;
 }
@@ -844,34 +808,24 @@ export interface ExtensionVersionsResource {
     namespace: string,
     id: string,
     version: string,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<VersionInfo>;
   publish(
     namespace: string,
     id: string,
     tarball: BinaryData,
-    options?: PublishOptions
+    options?: PublishOptions,
   ): Promise<VersionInfo>;
   review(
     namespace: string,
     id: string,
     version: string,
     payload: ReviewVersionPayload | DeprecateVersionPayload,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<VersionInfo>;
   delete(namespace: string, id: string, version: string, options?: RequestOptions): Promise<void>;
-  source(
-    namespace: string,
-    id: string,
-    version: string,
-    options?: RequestOptions
-  ): Promise<Blob>;
-  download(
-    namespace: string,
-    id: string,
-    version: string,
-    options?: RequestOptions
-  ): Promise<Blob>;
+  source(namespace: string, id: string, version: string, options?: RequestOptions): Promise<Blob>;
+  download(namespace: string, id: string, version: string, options?: RequestOptions): Promise<Blob>;
 }
 
 export interface ExtensionTagsResource {
@@ -881,7 +835,7 @@ export interface ExtensionTagsResource {
     id: string,
     tag: string,
     version: string,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<void>;
   delete(namespace: string, id: string, tag: string, options?: RequestOptions): Promise<void>;
 }
@@ -890,30 +844,30 @@ export interface ExtensionOwnersResource {
   list(
     namespace: string,
     id: string,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<Collection<ExtensionOwner>>;
   listInvites(
     namespace: string,
     id: string,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<Collection<ExtensionOwnerInvite>>;
   invite(
     namespace: string,
     id: string,
     ownerNamespace: string,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<void>;
   remove(
     namespace: string,
     id: string,
     ownerNamespace: string,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<void>;
   accept(
     namespace: string,
     id: string,
     ownerNamespace: string,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<{ data: { namespace: string; id: string; owner: string } }>;
 }
 
@@ -921,25 +875,25 @@ export interface ExtensionTransfersResource {
   list(
     namespace: string,
     id: string,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<Collection<ExtensionTransfer>>;
   offer(
     namespace: string,
     id: string,
     to: string,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<{ data: { namespace: string; id: string; to: string } }>;
   withdraw(
     namespace: string,
     id: string,
     toNamespace: string,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<void>;
   accept(
     namespace: string,
     id: string,
     toNamespace: string,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<{ data: { namespace: string; id: string; from: string; versions: number } }>;
 }
 
@@ -962,7 +916,7 @@ export interface BadgesResource {
     namespace: string,
     id: string,
     field: BadgeField,
-    options?: BadgeOptions
+    options?: BadgeOptions,
   ): Promise<string>;
 }
 
@@ -983,28 +937,17 @@ export interface AdminResource {
   updatePrivacy(payload: { body: string }, options?: RequestOptions): Promise<LegalDocument>;
   listAudit(query?: PageQuery): Promise<Page<AuditEntry>>;
   getQuota(namespace: string, options?: RequestOptions): Promise<Quota>;
-  setQuota(
-    namespace: string,
-    payload: SetQuotaPayload,
-    options?: RequestOptions
-  ): Promise<Quota>;
+  setQuota(namespace: string, payload: SetQuotaPayload, options?: RequestOptions): Promise<Quota>;
   getMetrics(options?: RequestOptions): Promise<string>;
   getConfig(options?: RequestOptions): Promise<ServerConfig>;
-  updateConfig(
-    payload: UpdateConfigPayload,
-    options?: RequestOptions
-  ): Promise<ServerConfigUpdate>;
+  updateConfig(payload: UpdateConfigPayload, options?: RequestOptions): Promise<ServerConfigUpdate>;
   broadcastNotification(
     payload: BroadcastNotificationPayload,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<{ created: number }>;
   listReports(query?: AdminReportQuery): Promise<Page<Report>>;
   getReport(id: string, options?: RequestOptions): Promise<Report>;
-  decideReport(
-    id: string,
-    payload: DecideReportPayload,
-    options?: RequestOptions
-  ): Promise<Report>;
+  decideReport(id: string, payload: DecideReportPayload, options?: RequestOptions): Promise<Report>;
   listPendingVersions(query?: PendingVersionQuery): Promise<Page<PendingVersion>>;
 }
 
@@ -1020,7 +963,7 @@ export class TwextHubError extends Error {
       retryAfter?: number;
       body?: string;
       cause?: unknown;
-    }
+    },
   );
   status: number;
   problem?: ProblemDetails;

@@ -29,8 +29,8 @@ function handleRequest(request, response) {
       echo: {
         authorization: request.headers.authorization,
         accept: request.headers.accept,
-        url: request.url
-      }
+        url: request.url,
+      },
     });
     return;
   }
@@ -52,9 +52,9 @@ function handleRequest(request, response) {
         type: 'about:blank',
         title: 'Not Found',
         status: 404,
-        detail: 'No account named missing.'
+        detail: 'No account named missing.',
       },
-      { 'content-type': 'application/problem+json' }
+      { 'content-type': 'application/problem+json' },
     );
     return;
   }
@@ -65,8 +65,8 @@ function handleRequest(request, response) {
       echo: {
         authorization: request.headers.authorization,
         contentType: request.headers['content-type'],
-        body: JSON.parse(request.body.toString())
-      }
+        body: JSON.parse(request.body.toString()),
+      },
     });
     return;
   }
@@ -81,7 +81,7 @@ function handleRequest(request, response) {
   if (url.pathname === '/api/v2/extensions') {
     sendJson(response, 200, {
       data: [],
-      _links: { self: '/api/v2/extensions', next: null, prev: null }
+      _links: { self: '/api/v2/extensions', next: null, prev: null },
     });
     return;
   }
@@ -90,6 +90,6 @@ function handleRequest(request, response) {
     type: 'about:blank',
     title: 'Not Found',
     status: 404,
-    detail: 'Not found.'
+    detail: 'Not found.',
   });
 }

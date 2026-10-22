@@ -11,7 +11,7 @@ export class TokensResource {
   list(query = {}) {
     return this.client.request('/tokens', {
       query: pickQuery(query, ['namespace', 'cursor', 'limit', 'dir']),
-      ...requestOptions(query)
+      ...requestOptions(query),
     });
   }
 
@@ -21,9 +21,9 @@ export class TokensResource {
       json: {
         name: payload.name,
         scopes: payload.scopes,
-        expiresInDays: payload.expiresInDays
+        expiresInDays: payload.expiresInDays,
       },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -31,7 +31,7 @@ export class TokensResource {
     return this.client.request(`/tokens/${encodeURIComponent(id)}`, {
       method: 'PATCH',
       json: { name: payload.name, scopes: payload.scopes },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -39,7 +39,7 @@ export class TokensResource {
     return this.client.request(`/tokens/${encodeURIComponent(id)}`, {
       method: 'DELETE',
       responseType: 'none',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -47,7 +47,7 @@ export class TokensResource {
     return this.client.request('/tokens/current', {
       method: 'DELETE',
       responseType: 'none',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 }

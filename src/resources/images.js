@@ -14,7 +14,7 @@ export class ImageResource {
     return this.client.request(this.buildPath(namespace), {
       query: pickQuery(options, ['v']),
       responseType: 'blob',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -28,7 +28,7 @@ export class ImageResource {
       body: data,
       contentType,
       query: pickQuery(options, ['v']),
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -36,7 +36,7 @@ export class ImageResource {
     return this.client.request(this.buildPath(namespace), {
       method: 'DELETE',
       query: pickQuery(options, ['v']),
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 }

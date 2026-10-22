@@ -12,8 +12,8 @@ export default defineConfig({
         test: {
           name: 'node',
           environment: 'node',
-          include: ['test/*.test.js']
-        }
+          include: ['test/*.test.js'],
+        },
       },
       {
         test: {
@@ -24,10 +24,10 @@ export default defineConfig({
             enabled: true,
             headless: true,
             provider: playwright(),
-            instances: [{ browser: 'chromium' }]
-          }
-        }
-      }
-    ]
-  }
+            instances: [{ browser: 'chromium' }],
+          },
+        },
+      },
+    ],
+  },
 });

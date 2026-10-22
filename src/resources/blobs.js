@@ -12,7 +12,7 @@ export class BlobsResource {
   get(digest, options = {}) {
     return this.client.request(`/blobs/${pathValue(digest, 'blob digest')}`, {
       responseType: 'blob',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 }

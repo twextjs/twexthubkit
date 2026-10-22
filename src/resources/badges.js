@@ -12,15 +12,18 @@ export class BadgesResource {
     return this.client.request(`/badge${extensionPath(namespace, id)}`, {
       query: pickQuery(options, ['label']),
       responseType: 'text',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   getField(namespace, id, field, options = {}) {
-    return this.client.request(`/badge${extensionPath(namespace, id)}/${encodeURIComponent(field)}`, {
-      query: pickQuery(options, ['label']),
-      responseType: 'text',
-      ...requestOptions(options)
-    });
+    return this.client.request(
+      `/badge${extensionPath(namespace, id)}/${encodeURIComponent(field)}`,
+      {
+        query: pickQuery(options, ['label']),
+        responseType: 'text',
+        ...requestOptions(options),
+      },
+    );
   }
 }

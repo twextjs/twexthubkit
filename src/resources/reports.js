@@ -16,22 +16,22 @@ export class ReportsResource {
         targetNamespace: payload.targetNamespace,
         targetExtensionId: payload.targetExtensionId,
         reason: payload.reason,
-        description: payload.description
+        description: payload.description,
       },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   list(query = {}) {
     return this.client.request('/reports', {
       query: pickQuery(query, ['cursor', 'limit', 'dir']),
-      ...requestOptions(query)
+      ...requestOptions(query),
     });
   }
 
   get(id, options = {}) {
     return this.client.request(`/reports/${pathValue(id, 'report id')}`, {
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 }

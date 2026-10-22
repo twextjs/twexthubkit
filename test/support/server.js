@@ -25,7 +25,7 @@ export async function startServer(handler, options = {}) {
       method: request.method,
       url: request.url,
       headers: request.headers,
-      body: Buffer.concat(chunks)
+      body: Buffer.concat(chunks),
     };
     requests.push(record);
 
@@ -55,7 +55,7 @@ export async function startServer(handler, options = {}) {
           else resolve();
         });
       });
-    }
+    },
   };
 }
 

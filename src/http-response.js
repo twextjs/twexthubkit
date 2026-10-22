@@ -26,7 +26,7 @@ async function readTextOrJson(response, responseType, options) {
       url: options.url ?? response.url,
       headers: response.headers,
       body: text,
-      cause: error
+      cause: error,
     });
   }
 }
@@ -51,7 +51,7 @@ export async function buildHttpError(response, method, url) {
     url,
     headers: response.headers,
     retryAfter,
-    body
+    body,
   });
 }
 

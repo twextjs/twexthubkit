@@ -16,7 +16,7 @@ export class AdminResource {
     return this.client.request('/admin/terms', {
       method: 'PATCH',
       json: { body: payload.body },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -24,20 +24,20 @@ export class AdminResource {
     return this.client.request('/admin/privacy', {
       method: 'PATCH',
       json: { body: payload.body },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   listAudit(query = {}) {
     return this.client.request('/admin/audit', {
       query: pickQuery(query, PAGE_KEYS),
-      ...requestOptions(query)
+      ...requestOptions(query),
     });
   }
 
   getQuota(namespace, options = {}) {
     return this.client.request(`/admin/users/${pathValue(namespace, 'namespace')}/quota`, {
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -45,14 +45,14 @@ export class AdminResource {
     return this.client.request(`/admin/users/${pathValue(namespace, 'namespace')}/quota`, {
       method: 'PATCH',
       json: { maxBlobBytes: payload.maxBlobBytes },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   getMetrics(options = {}) {
     return this.client.request('/admin/metrics', {
       responseType: 'text',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -64,7 +64,7 @@ export class AdminResource {
     return this.client.request('/admin/config', {
       method: 'PUT',
       json: { settings: payload.settings },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -72,20 +72,20 @@ export class AdminResource {
     return this.client.request('/admin/notifications', {
       method: 'POST',
       json: { message: payload.message },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   listReports(query = {}) {
     return this.client.request('/admin/reports', {
       query: pickQuery(query, REPORT_KEYS),
-      ...requestOptions(query)
+      ...requestOptions(query),
     });
   }
 
   getReport(id, options = {}) {
     return this.client.request(`/admin/reports/${pathValue(id, 'report id')}`, {
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -93,7 +93,7 @@ export class AdminResource {
     return this.client.request(`/admin/reports/${pathValue(id, 'report id')}`, {
       method: 'PATCH',
       json: { status: payload.status, note: payload.note },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -101,9 +101,9 @@ export class AdminResource {
     return this.client.request('/versions', {
       query: {
         status: query.status ?? 'pending',
-        ...pickQuery(query, PAGE_KEYS)
+        ...pickQuery(query, PAGE_KEYS),
       },
-      ...requestOptions(query)
+      ...requestOptions(query),
     });
   }
 }

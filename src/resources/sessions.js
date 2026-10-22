@@ -12,14 +12,14 @@ export class SessionsResource {
     return this.client.request('/sessions', {
       method: 'POST',
       json: { namespace: payload.namespace, password: payload.password },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   list(query = {}) {
     return this.client.request('/sessions', {
       query: pickQuery(query, ['namespace', 'cursor', 'limit', 'dir']),
-      ...requestOptions(query)
+      ...requestOptions(query),
     });
   }
 
@@ -27,7 +27,7 @@ export class SessionsResource {
     return this.client.request('/sessions/current', {
       method: 'DELETE',
       responseType: 'none',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -35,7 +35,7 @@ export class SessionsResource {
     return this.client.request(`/sessions/${encodeURIComponent(id)}`, {
       method: 'DELETE',
       responseType: 'none',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 }

@@ -32,7 +32,7 @@ function renderProductModule(product) {
   return [
     '// Generated from product.yml by scripts/product.mjs. Do not edit by hand.',
     `export const product = Object.freeze(${json});`,
-    ''
+    '',
   ].join('\n');
 }
 
@@ -46,7 +46,9 @@ function check() {
 
   const problems = [];
   if (pkg.version !== product.version) {
-    problems.push(`package.json version ${pkg.version} does not match product.yml ${product.version}`);
+    problems.push(
+      `package.json version ${pkg.version} does not match product.yml ${product.version}`,
+    );
   }
   if (actualModule !== expectedModule) {
     problems.push('src/product.js is out of date; run npm run product:sync');
@@ -64,7 +66,7 @@ function write() {
   const pkg = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
   if (pkg.version !== product.version) {
     throw new Error(
-      `package.json version ${pkg.version} does not match product.yml ${product.version}`
+      `package.json version ${pkg.version} does not match product.yml ${product.version}`,
     );
   }
   fs.writeFileSync(productModulePath, renderProductModule(product));

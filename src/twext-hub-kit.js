@@ -61,11 +61,11 @@ function resolveArguments(baseUrl, options) {
   if (baseUrl !== null && typeof baseUrl === 'object') {
     return {
       baseUrl: baseUrl.baseUrl ?? product.defaults.apiBaseUrl,
-      options: baseUrl
+      options: baseUrl,
     };
   }
   return {
     baseUrl: baseUrl ?? product.defaults.apiBaseUrl,
-    options
+    options,
   };
 }

@@ -40,16 +40,24 @@ export function combineSignals(signal, timeoutMs) {
   if (signal.aborted) {
     abort(signal.reason);
   } else {
-    signal.addEventListener('abort', function () {
-      abort(signal.reason);
-    }, { once: true });
+    signal.addEventListener(
+      'abort',
+      function () {
+        abort(signal.reason);
+      },
+      { once: true },
+    );
   }
   if (timeoutSignal.aborted) {
     abort(timeoutSignal.reason);
   } else {
-    timeoutSignal.addEventListener('abort', function () {
-      abort(timeoutSignal.reason);
-    }, { once: true });
+    timeoutSignal.addEventListener(
+      'abort',
+      function () {
+        abort(timeoutSignal.reason);
+      },
+      { once: true },
+    );
   }
   return controller.signal;
 }

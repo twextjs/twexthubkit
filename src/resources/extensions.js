@@ -25,7 +25,7 @@ export class ExtensionsResource {
   list(query = {}) {
     return this.client.request('/extensions', {
       query: pickQuery(query, LIST_KEYS),
-      ...requestOptions(query)
+      ...requestOptions(query),
     });
   }
 
@@ -33,16 +33,16 @@ export class ExtensionsResource {
     return this.client.request('/search', {
       query: {
         query: text,
-        ...pickQuery(options, SEARCH_KEYS)
+        ...pickQuery(options, SEARCH_KEYS),
       },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   trending(options = {}) {
     return this.client.request('/extensions/trending', {
       query: pickQuery(options, ['limit']),
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -54,7 +54,7 @@ export class ExtensionsResource {
     return this.client.request(extensionPath(namespace, id), {
       method: 'DELETE',
       responseType: 'none',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 }

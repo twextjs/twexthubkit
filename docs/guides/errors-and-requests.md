@@ -15,8 +15,8 @@ Every method eventually calls the same client, which:
 The base URL must use `http` or `https` and must not contain a query string or fragment. Trailing slashes are removed, so both of these work:
 
 ```js
-new TwextHubKit("https://example.com/api/v2");
-new TwextHubKit("https://example.com/api/v2/");
+new TwextHubKit('https://example.com/api/v2');
+new TwextHubKit('https://example.com/api/v2/');
 ```
 
 ## ⚙️ Where options go
@@ -26,11 +26,11 @@ There are two shapes to remember.
 ### Lists and searches take one query object
 
 ```js
-const page = await th.extensions.search("terminal", {
-  sort: "downloads",
+const page = await th.extensions.search('terminal', {
+  sort: 'downloads',
   limit: 20,
   signal: controller.signal,
-  timeoutMs: 5000
+  timeoutMs: 5000,
 });
 ```
 
@@ -39,15 +39,15 @@ Filters, pagination, `signal`, and `timeoutMs` all live in that object.
 ### Single-resource and write methods take a final options object
 
 ```js
-const extension = await th.extensions.get("kamix", "xterm", {
+const extension = await th.extensions.get('kamix', 'xterm', {
   signal: controller.signal,
-  timeoutMs: 5000
+  timeoutMs: 5000,
 });
 ```
 
 ```js
-await th.extensions.versions.publish("your-name", "xterm", tarball, {
-  timeoutMs: 30000
+await th.extensions.versions.publish('your-name', 'xterm', tarball, {
+  timeoutMs: 30000,
 });
 ```
 
@@ -59,7 +59,7 @@ Set a default timeout on the client:
 
 ```js
 const th = new TwextHubKit({
-  timeoutMs: 10000
+  timeoutMs: 10000,
 });
 ```
 
@@ -74,7 +74,7 @@ await th.users.me({ timeoutMs: 2000 });
 A timeout becomes a `TwextHubNetworkError`:
 
 ```js
-import { TwextHubNetworkError } from "@twextjs/twexthubkit";
+import { TwextHubNetworkError } from '@twextjs/twexthubkit';
 
 try {
   await th.users.me({ timeoutMs: 10 });
@@ -94,7 +94,7 @@ const controller = new AbortController();
 
 const request = th.extensions.list({
   limit: 50,
-  signal: controller.signal
+  signal: controller.signal,
 });
 
 controller.abort();
@@ -123,10 +123,10 @@ A per-request signal is combined with the client default and the timeout. If any
 The server returned an HTTP error. The status is real (for example `404` or `403`), and `problem` may hold the API's RFC 7807 problem document.
 
 ```js
-import { TwextHubError } from "@twextjs/twexthubkit";
+import { TwextHubError } from '@twextjs/twexthubkit';
 
 try {
-  await th.users.get("nobody");
+  await th.users.get('nobody');
 } catch (error) {
   if (error instanceof TwextHubError) {
     console.error(error.status);
@@ -140,31 +140,31 @@ try {
 
 Useful fields:
 
-| Field | Meaning |
-| --- | --- |
-| `status` | HTTP status, or `0` for transport failures |
-| `message` | Readable message built from `detail`, `title`, or the status |
-| `problem` | Parsed problem document, when the body was JSON |
-| `problem.errors` | Field-level validation errors, when present |
-| `problem.buildLog` | Build output from a failed publish, when present |
-| `method` | HTTP method |
-| `url` | Full request URL |
-| `headers` | Response `Headers` |
-| `retryAfter` | Parsed `Retry-After` in seconds, when present |
-| `body` | Raw response body |
+| Field              | Meaning                                                      |
+| ------------------ | ------------------------------------------------------------ |
+| `status`           | HTTP status, or `0` for transport failures                   |
+| `message`          | Readable message built from `detail`, `title`, or the status |
+| `problem`          | Parsed problem document, when the body was JSON              |
+| `problem.errors`   | Field-level validation errors, when present                  |
+| `problem.buildLog` | Build output from a failed publish, when present             |
+| `method`           | HTTP method                                                  |
+| `url`              | Full request URL                                             |
+| `headers`          | Response `Headers`                                           |
+| `retryAfter`       | Parsed `Retry-After` in seconds, when present                |
+| `body`             | Raw response body                                            |
 
 ### `TwextHubNetworkError`
 
 The request never produced an HTTP response. This covers DNS failures, connection errors, timeouts, and aborts. Its `status` is `0`, which makes it easy to tell apart from a server refusal.
 
 ```js
-import { TwextHubNetworkError } from "@twextjs/twexthubkit";
+import { TwextHubNetworkError } from '@twextjs/twexthubkit';
 
 try {
   await th.instance.meta();
 } catch (error) {
   if (error instanceof TwextHubNetworkError) {
-    console.error("Could not reach the instance:", error.message);
+    console.error('Could not reach the instance:', error.message);
   }
 }
 ```
@@ -188,17 +188,13 @@ async function getWithRetry(path, attempts = 3) {
       lastError = error;
 
       const retryable =
-        error instanceof TwextHubNetworkError ||
-        error.status === 429 ||
-        error.status === 503;
+        error instanceof TwextHubNetworkError || error.status === 429 || error.status === 503;
 
       if (!retryable || attempt === attempts) {
         throw error;
       }
 
-      const delayMs = error.retryAfter
-        ? error.retryAfter * 1000
-        : 250 * 2 ** (attempt - 1);
+      const delayMs = error.retryAfter ? error.retryAfter * 1000 : 250 * 2 ** (attempt - 1);
 
       await new Promise(function (resolve) {
         setTimeout(resolve, delayMs);
@@ -222,18 +218,18 @@ Do not use it for `publish`, `delete`, `create`, or other writes unless the oper
 
 ## 🚦 Common statuses
 
-| Status | What it usually means |
-| --- | --- |
-| `400` | Bad request or invalid payload |
-| `401` | Missing or invalid token |
-| `403` | Valid token, but not allowed; also used for unaccepted terms |
-| `404` | Resource not found, or not visible to you |
-| `409` | Conflict, such as a duplicate namespace or owner |
-| `413` | Upload too large |
-| `422` | Validation failed; check `problem.errors` |
-| `429` | Rate limited; check `retryAfter` |
-| `500` | Server error |
-| `503` | Temporarily unavailable; retrying later may help |
+| Status | What it usually means                                        |
+| ------ | ------------------------------------------------------------ |
+| `400`  | Bad request or invalid payload                               |
+| `401`  | Missing or invalid token                                     |
+| `403`  | Valid token, but not allowed; also used for unaccepted terms |
+| `404`  | Resource not found, or not visible to you                    |
+| `409`  | Conflict, such as a duplicate namespace or owner             |
+| `413`  | Upload too large                                             |
+| `422`  | Validation failed; check `problem.errors`                    |
+| `429`  | Rate limited; check `retryAfter`                             |
+| `500`  | Server error                                                 |
+| `503`  | Temporarily unavailable; retrying later may help             |
 
 A `403` can mean two different things: the account lacks permission, or the account has not accepted the current terms. Check `problem.detail` or compare `user.termsAcceptedVersion` with `instance.terms().version`.
 
@@ -258,8 +254,8 @@ The client sets `accept` and `content-type` based on the request. It also sets `
 ```js
 const th = new TwextHubKit({
   headers: {
-    "x-client": "my-app"
-  }
+    'x-client': 'my-app',
+  },
 });
 ```
 

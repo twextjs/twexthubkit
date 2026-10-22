@@ -10,13 +10,13 @@ export class ExtensionOwnersResource {
 
   list(namespace, id, options = {}) {
     return this.client.request(`${extensionPath(namespace, id)}/owners`, {
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   listInvites(namespace, id, options = {}) {
     return this.client.request(`${extensionPath(namespace, id)}/owners/pending`, {
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -24,7 +24,7 @@ export class ExtensionOwnersResource {
     return this.client.request(ownerPath(namespace, id, ownerNamespace), {
       method: 'PUT',
       responseType: 'none',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -32,14 +32,14 @@ export class ExtensionOwnersResource {
     return this.client.request(ownerPath(namespace, id, ownerNamespace), {
       method: 'DELETE',
       responseType: 'none',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   accept(namespace, id, ownerNamespace, options = {}) {
     return this.client.request(`${ownerPath(namespace, id, ownerNamespace)}/accept`, {
       method: 'POST',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 }

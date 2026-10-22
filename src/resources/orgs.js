@@ -30,22 +30,22 @@ export class OrgsResource {
         website: payload.website,
         github: payload.github,
         avatarUrl: payload.avatarUrl,
-        bannerUrl: payload.bannerUrl
+        bannerUrl: payload.bannerUrl,
       },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   list(query = {}) {
     return this.client.request('/orgs', {
       query: pickQuery(query, PAGE_KEYS),
-      ...requestOptions(query)
+      ...requestOptions(query),
     });
   }
 
   get(namespace, options = {}) {
     return this.client.request(`/orgs/${pathValue(namespace, 'namespace')}`, {
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -58,9 +58,9 @@ export class OrgsResource {
         website: payload.website,
         github: payload.github,
         avatarUrl: payload.avatarUrl,
-        bannerUrl: payload.bannerUrl
+        bannerUrl: payload.bannerUrl,
       },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -68,13 +68,13 @@ export class OrgsResource {
     return this.client.request(`/orgs/${pathValue(namespace, 'namespace')}`, {
       method: 'DELETE',
       responseType: 'none',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   listOwners(namespace, options = {}) {
     return this.client.request(`/orgs/${pathValue(namespace, 'namespace')}/owners`, {
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -84,8 +84,8 @@ export class OrgsResource {
       {
         method: 'PUT',
         responseType: 'none',
-        ...requestOptions(options)
-      }
+        ...requestOptions(options),
+      },
     );
   }
 
@@ -95,15 +95,15 @@ export class OrgsResource {
       {
         method: 'DELETE',
         responseType: 'none',
-        ...requestOptions(options)
-      }
+        ...requestOptions(options),
+      },
     );
   }
 
   listExtensions(namespace, query = {}) {
     return this.client.request(`/orgs/${pathValue(namespace, 'namespace')}/extensions`, {
       query: pickQuery(query, EXTENSION_KEYS),
-      ...requestOptions(query)
+      ...requestOptions(query),
     });
   }
 }

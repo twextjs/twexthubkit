@@ -7,7 +7,7 @@ This guide covers the read-only side of TwextHubKit: finding accounts and extens
 `users.get()` returns the public account view for a person or an organization:
 
 ```js
-const account = await th.users.get("kamix");
+const account = await th.users.get('kamix');
 
 console.log(account.namespace);
 console.log(account.displayName);
@@ -17,9 +17,9 @@ console.log(account.kind); // "user" or "organization"
 Use `orgs.get()` when you need organization details such as owners or organization links:
 
 ```js
-const org = await th.orgs.get("kamix");
-const owners = await th.orgs.listOwners("kamix");
-const extensions = await th.orgs.listExtensions("kamix");
+const org = await th.orgs.get('kamix');
+const owners = await th.orgs.listOwners('kamix');
+const extensions = await th.orgs.listExtensions('kamix');
 ```
 
 To list accounts:
@@ -37,28 +37,28 @@ The signed-in account is available through `th.users.me()`. See [Accounts and or
 
 ```js
 const page = await th.extensions.list({
-  sort: "recent",
-  limit: 20
+  sort: 'recent',
+  limit: 20,
 });
 ```
 
 `extensions.list()` accepts:
 
-| Option | Values | Meaning |
-| --- | --- | --- |
-| `sort` | `recent`, `downloads`, `updated`, `name` | Result order |
-| `license` | A license string | Only extensions with that license |
-| `namespace` | A namespace | Only extensions owned by that account |
-| `limit` | Number | Results per page |
-| `cursor` | String | The `cursor` query value from `_links.next` |
-| `dir` | `back` | Walk to the previous page |
+| Option      | Values                                   | Meaning                                     |
+| ----------- | ---------------------------------------- | ------------------------------------------- |
+| `sort`      | `recent`, `downloads`, `updated`, `name` | Result order                                |
+| `license`   | A license string                         | Only extensions with that license           |
+| `namespace` | A namespace                              | Only extensions owned by that account       |
+| `limit`     | Number                                   | Results per page                            |
+| `cursor`    | String                                   | The `cursor` query value from `_links.next` |
+| `dir`       | `back`                                   | Walk to the previous page                   |
 
 ### Search
 
 ```js
-const matches = await th.extensions.search("terminal", {
-  sort: "downloads",
-  limit: 10
+const matches = await th.extensions.search('terminal', {
+  sort: 'downloads',
+  limit: 10,
 });
 ```
 
@@ -75,7 +75,7 @@ Trending is a ranked list, not a general search.
 ### One extension
 
 ```js
-const extension = await th.extensions.get("kamix", "xterm");
+const extension = await th.extensions.get('kamix', 'xterm');
 
 console.log(extension.name);
 console.log(extension.description);
@@ -87,12 +87,12 @@ An extension is identified by its owner `namespace` and its `id` (usually the pa
 ### Versions and tags
 
 ```js
-const versions = await th.extensions.versions.list("kamix", "xterm", {
-  limit: 20
+const versions = await th.extensions.versions.list('kamix', 'xterm', {
+  limit: 20,
 });
 
-const version = await th.extensions.versions.get("kamix", "xterm", "1.0.0");
-const tags = await th.extensions.tags.get("kamix", "xterm");
+const version = await th.extensions.versions.get('kamix', 'xterm', '1.0.0');
+const tags = await th.extensions.tags.get('kamix', 'xterm');
 
 console.log(tags.latest);
 ```
@@ -119,7 +119,7 @@ The simplest way to walk a list is to follow `next` until it is `null`:
 ```js
 function nextCursor(page) {
   if (!page._links.next) return null;
-  return new URL(page._links.next, th.baseUrl).searchParams.get("cursor");
+  return new URL(page._links.next, th.baseUrl).searchParams.get('cursor');
 }
 
 let cursor;
@@ -141,7 +141,7 @@ Do not assume that a page is full just because it has items, and do not build yo
 Version downloads return a `Blob`:
 
 ```js
-const blob = await th.extensions.versions.download("kamix", "xterm", "1.0.0");
+const blob = await th.extensions.versions.download('kamix', 'xterm', '1.0.0');
 
 const text = await blob.text();
 const bytes = new Uint8Array(await blob.arrayBuffer());
@@ -150,7 +150,7 @@ const bytes = new Uint8Array(await blob.arrayBuffer());
 Use `source()` for the source tarball, when the extension has one and your token can read it:
 
 ```js
-const source = await th.extensions.versions.source("kamix", "xterm", "1.0.0");
+const source = await th.extensions.versions.source('kamix', 'xterm', '1.0.0');
 ```
 
 Downloads use the same options as other single-resource methods:
@@ -158,9 +158,9 @@ Downloads use the same options as other single-resource methods:
 ```js
 const controller = new AbortController();
 
-const blob = await th.extensions.versions.download("kamix", "xterm", "latest", {
+const blob = await th.extensions.versions.download('kamix', 'xterm', 'latest', {
   signal: controller.signal,
-  timeoutMs: 15000
+  timeoutMs: 15000,
 });
 ```
 
@@ -171,8 +171,8 @@ The `version` argument can be a concrete version or a tag such as `latest`, depe
 Profile and organization images are `Blob` values:
 
 ```js
-const avatar = await th.users.avatar.get("kamix");
-const banner = await th.orgs.banner.get("kamix");
+const avatar = await th.users.avatar.get('kamix');
+const banner = await th.orgs.banner.get('kamix');
 
 const url = URL.createObjectURL(avatar);
 ```
@@ -188,8 +188,8 @@ Blobs referenced by digest are available through `th.blobs.get(digest)`. This is
 Badge endpoints return an SVG string, not a `Blob`:
 
 ```js
-const badge = await th.badges.get("kamix", "xterm");
-const downloadsBadge = await th.badges.getField("kamix", "xterm", "downloads");
+const badge = await th.badges.get('kamix', 'xterm');
+const downloadsBadge = await th.badges.getField('kamix', 'xterm', 'downloads');
 ```
 
 The available badge fields are `version`, `downloads`, and `license`.

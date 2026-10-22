@@ -16,7 +16,7 @@ export class AuthResource {
   getOidcAuthorizeUrl(options = {}) {
     return this.client.request('/auth/oidc/authorize', {
       query: pickQuery(options, ['returnTo']),
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -25,7 +25,7 @@ export class AuthResource {
       query: pickQuery(params, ['code', 'state', 'error']),
       responseType: 'raw',
       redirect: 'manual',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
 
     if (response.type === 'opaqueredirect') {
@@ -42,7 +42,7 @@ export class AuthResource {
     return this.client.request('/auth/oidc/exchange', {
       method: 'POST',
       json: { code: payload.code },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -50,7 +50,7 @@ export class AuthResource {
     return this.client.request('/auth/oidc/link', {
       method: 'POST',
       json: { returnTo: options.returnTo },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -62,7 +62,7 @@ export class AuthResource {
     return this.client.request(`/auth/oidc/identities/${encodeURIComponent(id)}`, {
       method: 'DELETE',
       responseType: 'none',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -73,7 +73,7 @@ export class AuthResource {
   createPasskeyOptions(options = {}) {
     return this.client.request('/auth/mfa/passkeys/options', {
       method: 'POST',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -81,7 +81,7 @@ export class AuthResource {
     return this.client.request('/auth/mfa/passkeys', {
       method: 'POST',
       json: { response: payload.response, label: payload.label },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -89,7 +89,7 @@ export class AuthResource {
     return this.client.request(`/auth/mfa/passkeys/${encodeURIComponent(id)}`, {
       method: 'PATCH',
       json: { label: payload.label },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -97,14 +97,14 @@ export class AuthResource {
     return this.client.request(`/auth/mfa/passkeys/${encodeURIComponent(id)}`, {
       method: 'DELETE',
       responseType: 'none',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   regenerateBackupCodes(options = {}) {
     return this.client.request('/auth/mfa/backup-codes', {
       method: 'POST',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -112,7 +112,7 @@ export class AuthResource {
     return this.client.request('/auth/mfa/options', {
       method: 'POST',
       json: { mfaToken: payload.mfaToken },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -122,16 +122,16 @@ export class AuthResource {
       json: {
         mfaToken: payload.mfaToken,
         response: payload.response,
-        backupCode: payload.backupCode
+        backupCode: payload.backupCode,
       },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   getReauthOptions(options = {}) {
     return this.client.request('/auth/mfa/reauth/options', {
       method: 'POST',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -139,7 +139,7 @@ export class AuthResource {
     return this.client.request('/auth/mfa/reauth', {
       method: 'POST',
       json: { response: payload.response },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 }

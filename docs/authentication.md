@@ -17,7 +17,7 @@ Requests without a token still work for public data:
 ```js
 const th = new TwextHubKit();
 
-const extension = await th.extensions.get("kamix", "xterm");
+const extension = await th.extensions.get('kamix', 'xterm');
 const page = await th.extensions.list({ limit: 10 });
 ```
 
@@ -27,8 +27,8 @@ If you call an endpoint that needs an account without a token, the API returns `
 
 ```js
 const result = await th.sessions.create({
-  namespace: "your-name",
-  password: "your-password"
+  namespace: 'your-name',
+  password: 'your-password',
 });
 
 if (result.mfaRequired) {
@@ -56,7 +56,7 @@ Not every instance allows password sign-in. Check first if you are building a ge
 const auth = await th.auth.describe();
 
 console.log(auth.passwordAuth); // true or false
-console.log(auth.oidc);         // { issuer, required } or null
+console.log(auth.oidc); // { issuer, required } or null
 ```
 
 If `oidc.required` is `true`, password sign-in is not available and you should use the OIDC flow.
@@ -75,7 +75,7 @@ const credential = await navigator.credentials.get({ publicKey: options });
 
 const session = await th.auth.verifyMfa({
   mfaToken,
-  response: JSON.parse(JSON.stringify(credential))
+  response: JSON.parse(JSON.stringify(credential)),
 });
 
 th.setToken(session.token);
@@ -88,7 +88,7 @@ th.setToken(session.token);
 ```js
 const session = await th.auth.verifyMfa({
   mfaToken: result.mfaToken,
-  backupCode: "ABCD-EFGH"
+  backupCode: 'ABCD-EFGH',
 });
 
 th.setToken(session.token);
@@ -102,7 +102,7 @@ OIDC is a browser redirect flow. The client gives you a URL; your app sends the 
 
 ```js
 const { authorizationUrl } = await th.auth.getOidcAuthorizeUrl({
-  returnTo: "https://your-app.example/auth/callback"
+  returnTo: 'https://your-app.example/auth/callback',
 });
 
 window.location.assign(authorizationUrl);
@@ -133,7 +133,7 @@ If the user is already signed in, you can attach an OIDC identity instead of cre
 
 ```js
 const { authorizationUrl } = await th.auth.linkOidc({
-  returnTo: "https://your-app.example/settings"
+  returnTo: 'https://your-app.example/settings',
 });
 
 window.location.assign(authorizationUrl);
@@ -152,9 +152,9 @@ Automation tokens are long-lived credentials for scripts, CI jobs, and other sof
 
 ```js
 const created = await th.tokens.create({
-  name: "release workflow",
-  scopes: ["publish", "yank"],
-  expiresInDays: 30
+  name: 'release workflow',
+  scopes: ['publish', 'yank'],
+  expiresInDays: 30,
 });
 
 console.log(created.token); // shown only in this response
@@ -166,22 +166,22 @@ Use it in another client:
 
 ```js
 const th = new TwextHubKit({
-  token: process.env.TWEXTHUB_TOKEN
+  token: process.env.TWEXTHUB_TOKEN,
 });
 ```
 
 ### Scopes
 
-| Scope | Allows |
-| --- | --- |
-| `publish` | Publish new extension versions |
-| `yank` | Remove or yank versions |
-| `read:source` | Download source tarballs |
-| `manage:account` | Update the account profile and settings |
-| `manage:orgs` | Manage organizations and their owners |
-| `manage:sessions` | List and revoke sessions |
-| `manage:tokens` | Create, update, and revoke automation tokens |
-| `admin` | Use admin routes; the account still needs the admin role |
+| Scope             | Allows                                                   |
+| ----------------- | -------------------------------------------------------- |
+| `publish`         | Publish new extension versions                           |
+| `yank`            | Remove or yank versions                                  |
+| `read:source`     | Download source tarballs                                 |
+| `manage:account`  | Update the account profile and settings                  |
+| `manage:orgs`     | Manage organizations and their owners                    |
+| `manage:sessions` | List and revoke sessions                                 |
+| `manage:tokens`   | Create, update, and revoke automation tokens             |
+| `admin`           | Use admin routes; the account still needs the admin role |
 
 A session token has all scopes. An automation token only has the scopes you grant it, so keep the list as small as the job allows.
 
@@ -191,8 +191,8 @@ A session token has all scopes. An automation token only has the scopes you gran
 const tokens = await th.tokens.list();
 
 await th.tokens.update(tokens.data[0].id, {
-  name: "nightly release",
-  scopes: ["publish"]
+  name: 'nightly release',
+  scopes: ['publish'],
 });
 
 await th.tokens.delete(tokens.data[0].id);
@@ -224,8 +224,8 @@ Many authenticated endpoints return `403` until the account accepts the current 
 ```js
 const terms = await th.instance.terms();
 
-await th.users.update("your-name", {
-  termsAcceptedVersion: terms.version
+await th.users.update('your-name', {
+  termsAcceptedVersion: terms.version,
 });
 ```
 

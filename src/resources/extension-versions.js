@@ -12,13 +12,13 @@ export class ExtensionVersionsResource {
   list(namespace, id, query = {}) {
     return this.client.request(`${extensionPath(namespace, id)}/versions`, {
       query: pickQuery(query, ['range', 'status', 'cursor', 'limit', 'dir']),
-      ...requestOptions(query)
+      ...requestOptions(query),
     });
   }
 
   get(namespace, id, version, options = {}) {
     return this.client.request(versionPath(namespace, id, version), {
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -30,7 +30,7 @@ export class ExtensionVersionsResource {
       method: 'POST',
       body: tarball,
       contentType: options.contentType ?? 'application/gzip',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -42,7 +42,7 @@ export class ExtensionVersionsResource {
     return this.client.request(versionPath(namespace, id, version), {
       method: 'PATCH',
       json: body,
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -50,21 +50,21 @@ export class ExtensionVersionsResource {
     return this.client.request(versionPath(namespace, id, version), {
       method: 'DELETE',
       responseType: 'none',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   source(namespace, id, version, options = {}) {
     return this.client.request(`${versionPath(namespace, id, version)}/source`, {
       responseType: 'blob',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   download(namespace, id, version, options = {}) {
     return this.client.request(`${versionPath(namespace, id, version)}/download`, {
       responseType: 'blob',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 }

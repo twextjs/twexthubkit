@@ -23,7 +23,7 @@ export class AccountWebhooksResource {
     return deleteWebhook(
       this.client,
       `${accountBase(namespace)}/webhooks/${pathValue(webhookId, 'webhook id')}`,
-      options
+      options,
     );
   }
 
@@ -31,7 +31,7 @@ export class AccountWebhooksResource {
     return listWebhookDeliveries(
       this.client,
       deliveryPath(accountBase(namespace), webhookId),
-      query
+      query,
     );
   }
 
@@ -39,7 +39,7 @@ export class AccountWebhooksResource {
     return redeliverWebhook(
       this.client,
       `${deliveryPath(accountBase(namespace), webhookId)}/${pathValue(deliveryId, 'delivery id')}/redeliver`,
-      options
+      options,
     );
   }
 }
@@ -61,7 +61,7 @@ export class OrganizationWebhooksResource {
     return deleteWebhook(
       this.client,
       `${organizationBase(namespace)}/webhooks/${pathValue(webhookId, 'webhook id')}`,
-      options
+      options,
     );
   }
 
@@ -69,7 +69,7 @@ export class OrganizationWebhooksResource {
     return listWebhookDeliveries(
       this.client,
       deliveryPath(organizationBase(namespace), webhookId),
-      query
+      query,
     );
   }
 
@@ -77,7 +77,7 @@ export class OrganizationWebhooksResource {
     return redeliverWebhook(
       this.client,
       `${deliveryPath(organizationBase(namespace), webhookId)}/${pathValue(deliveryId, 'delivery id')}/redeliver`,
-      options
+      options,
     );
   }
 }
@@ -99,7 +99,7 @@ export class ExtensionWebhooksResource {
     return deleteWebhook(
       this.client,
       `${extensionBase(namespace, id)}/webhooks/${pathValue(webhookId, 'webhook id')}`,
-      options
+      options,
     );
   }
 
@@ -107,7 +107,7 @@ export class ExtensionWebhooksResource {
     return listWebhookDeliveries(
       this.client,
       deliveryPath(extensionBase(namespace, id), webhookId),
-      query
+      query,
     );
   }
 
@@ -115,7 +115,7 @@ export class ExtensionWebhooksResource {
     return redeliverWebhook(
       this.client,
       `${deliveryPath(extensionBase(namespace, id), webhookId)}/${pathValue(deliveryId, 'delivery id')}/redeliver`,
-      options
+      options,
     );
   }
 }
@@ -146,9 +146,9 @@ function createWebhook(client, path, payload, options) {
     json: {
       url: payload.url,
       events: payload.events,
-      active: payload.active
+      active: payload.active,
     },
-    ...requestOptions(options)
+    ...requestOptions(options),
   });
 }
 
@@ -156,20 +156,20 @@ function deleteWebhook(client, path, options) {
   return client.request(path, {
     method: 'DELETE',
     responseType: 'none',
-    ...requestOptions(options)
+    ...requestOptions(options),
   });
 }
 
 function listWebhookDeliveries(client, path, query) {
   return client.request(path, {
     query: pickQuery(query, PAGE_KEYS),
-    ...requestOptions(query)
+    ...requestOptions(query),
   });
 }
 
 function redeliverWebhook(client, path, options) {
   return client.request(path, {
     method: 'POST',
-    ...requestOptions(options)
+    ...requestOptions(options),
   });
 }

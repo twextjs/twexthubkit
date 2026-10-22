@@ -27,7 +27,7 @@ export class InstanceResource {
   atomFeed(options = {}) {
     return this.client.request('/feed.atom', {
       responseType: 'text',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 }

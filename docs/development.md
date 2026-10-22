@@ -15,16 +15,19 @@ The Playwright download is only needed for the browser test project. It installs
 
 ## 🧪 Commands
 
-| Command | What it does |
-| --- | --- |
-| `npm test` | Runs the Node and browser projects |
-| `npm run test:node` | Runs the Node tests only |
-| `npm run test:browser` | Runs the Chromium tests only |
-| `npm run test:watch` | Starts Vitest in watch mode |
-| `npm run typecheck` | Checks the TypeScript declarations |
-| `npm run product:check` | Verifies the generated metadata is current |
-| `npm run product:sync` | Regenerates `src/product.js` from `product.yml` |
-| `npm run check` | Runs metadata, types, and all tests |
+| Command                 | What it does                                      |
+| ----------------------- | ------------------------------------------------- |
+| `npm test`              | Runs the Node and browser projects                |
+| `npm run test:node`     | Runs the Node tests only                          |
+| `npm run test:browser`  | Runs the Chromium tests only                      |
+| `npm run test:watch`    | Starts Vitest in watch mode                       |
+| `npm run lint`          | Checks JavaScript with ESLint                     |
+| `npm run format`        | Formats the repository with Prettier              |
+| `npm run format:check`  | Verifies formatting without writing changes       |
+| `npm run typecheck`     | Checks the TypeScript declarations                |
+| `npm run product:check` | Verifies the generated metadata is current        |
+| `npm run product:sync`  | Regenerates `src/product.js` from `product.yml`   |
+| `npm run check`         | Runs metadata, lint, format, types, and all tests |
 
 Run `npm run check` before committing. It is the same sequence CI should use.
 

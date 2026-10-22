@@ -2,11 +2,7 @@
 // typed errors, cancellation, and the product defaults.
 
 import { expect, onTestFinished, test } from 'vitest';
-import TwextHubKit, {
-  TwextHubError,
-  TwextHubNetworkError,
-  product
-} from '../src/index.js';
+import TwextHubKit, { TwextHubError, TwextHubNetworkError, product } from '../src/index.js';
 import { sendJson, startServer } from './support/server.js';
 
 test('constructor defaults, options object, and token setter', function () {
@@ -88,7 +84,7 @@ test('JSON bodies set Content-Type and do not add auth by default', async functi
   expect(request.headers.authorization).toBeUndefined();
   expect(JSON.parse(request.body.toString())).toEqual({
     namespace: 'kamix',
-    password: 'hunter22'
+    password: 'hunter22',
   });
 });
 
@@ -102,9 +98,9 @@ test('HTTP problems become TwextHubError with the problem body and retry hint', 
         title: 'Validation Error',
         status: 422,
         detail: 'One or more fields failed validation.',
-        errors: [{ field: 'namespace', message: 'Required' }]
+        errors: [{ field: 'namespace', message: 'Required' }],
       },
-      { 'content-type': 'application/problem+json', 'retry-after': '7' }
+      { 'content-type': 'application/problem+json', 'retry-after': '7' },
     );
   });
   onTestFinished(function () {
@@ -173,7 +169,7 @@ test('network failures, timeouts, and caller aborts are TwextHubNetworkError', a
   const failing = new TwextHubKit('https://example.com/api/v2', {
     fetch: function () {
       return Promise.reject(new TypeError('socket closed'));
-    }
+    },
   });
   let caught;
   try {
@@ -187,14 +183,18 @@ test('network failures, timeouts, and caller aborts are TwextHubNetworkError', a
 
   const waitingFetch = function (input, init) {
     return new Promise(function (resolve, reject) {
-      init.signal.addEventListener('abort', function () {
-        reject(init.signal.reason);
-      }, { once: true });
+      init.signal.addEventListener(
+        'abort',
+        function () {
+          reject(init.signal.reason);
+        },
+        { once: true },
+      );
     });
   };
   const timeout = new TwextHubKit('https://example.com/api/v2', {
     fetch: waitingFetch,
-    timeoutMs: 5
+    timeoutMs: 5,
   });
   await expect(timeout.instance.meta()).rejects.toThrow(/timed out after 5 ms/);
 

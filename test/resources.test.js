@@ -33,7 +33,7 @@ test('auth, sessions, and tokens build their paths and bodies', async function (
   expect(server.requests[1].url).toBe('/api/v2/sessions');
   expect(JSON.parse(server.requests[1].body.toString())).toEqual({
     namespace: 'kamix',
-    password: 'secret'
+    password: 'secret',
   });
 
   await th.tokens.create({ name: 'CI', scopes: ['publish'], expiresInDays: 30 });
@@ -41,7 +41,7 @@ test('auth, sessions, and tokens build their paths and bodies', async function (
   expect(JSON.parse(server.requests[2].body.toString())).toEqual({
     name: 'CI',
     scopes: ['publish'],
-    expiresInDays: 30
+    expiresInDays: 30,
   });
 });
 
@@ -59,11 +59,11 @@ test('user updates and binary image uploads use the right verbs and content type
   expect(server.requests[0].url).toBe('/api/v2/users/kamix');
   expect(JSON.parse(server.requests[0].body.toString())).toEqual({
     displayName: 'Kamix',
-    bio: 'New bio'
+    bio: 'New bio',
   });
 
   await th.users.avatar.upload('kamix', new Uint8Array([1, 2, 3]), {
-    contentType: 'image/png'
+    contentType: 'image/png',
   });
   expect(server.requests[1].method).toBe('PUT');
   expect(server.requests[1].url).toBe('/api/v2/users/kamix/avatar');
@@ -101,14 +101,17 @@ test('organization owners, extensions, and webhooks use their namespaced paths',
 
   await th.orgs.webhooks.create('acme', {
     url: 'https://example.com/hook',
-    events: ['version.published']
+    events: ['version.published'],
   });
   expect(server.requests[2].url).toBe('/api/v2/orgs/acme/webhooks');
 });
 
 test('extension publishing, tags, owners, and transfers send the documented bodies', async function () {
   const server = await startServer(function (request, response) {
-    if (request.method === 'PUT' || (request.method === 'DELETE' && request.url.includes('/tags/'))) {
+    if (
+      request.method === 'PUT' ||
+      (request.method === 'DELETE' && request.url.includes('/tags/'))
+    ) {
       response.statusCode = 204;
       response.end();
       return;
@@ -176,7 +179,7 @@ test('notifications, reports, and admin helpers build their queries and bodies',
     targetNamespace: 'kamix',
     targetExtensionId: 'xterm',
     reason: 'spam',
-    description: 'Details'
+    description: 'Details',
   });
   expect(server.requests[2].url).toBe('/api/v2/reports');
   expect(JSON.parse(server.requests[2].body.toString()).targetExtensionId).toBe('xterm');

@@ -10,7 +10,7 @@ export class ExtensionTagsResource {
 
   get(namespace, id, options = {}) {
     return this.client.request(`${extensionPath(namespace, id)}/tags`, {
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -19,7 +19,7 @@ export class ExtensionTagsResource {
       method: 'PUT',
       json: { version },
       responseType: 'none',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -27,7 +27,7 @@ export class ExtensionTagsResource {
     return this.client.request(tagPath(namespace, id, tag), {
       method: 'DELETE',
       responseType: 'none',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 }

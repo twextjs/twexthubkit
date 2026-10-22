@@ -15,7 +15,7 @@ The package is ESM-only and has no runtime dependencies. Node.js 24 or newer is 
 The default client talks to the official TwextHub instance:
 
 ```js
-import TwextHubKit from "@twextjs/twexthubkit";
+import TwextHubKit from '@twextjs/twexthubkit';
 
 const th = new TwextHubKit();
 ```
@@ -23,7 +23,7 @@ const th = new TwextHubKit();
 To use another instance, pass its API base URL. It must include `/api/v2`:
 
 ```js
-const th = new TwextHubKit("https://twexts.sdisk.us/api/v2");
+const th = new TwextHubKit('https://twexts.sdisk.us/api/v2');
 ```
 
 You can also pass options instead of a URL:
@@ -31,27 +31,27 @@ You can also pass options instead of a URL:
 ```js
 const th = new TwextHubKit({
   token: process.env.TWEXTHUB_TOKEN,
-  timeoutMs: 10000
+  timeoutMs: 10000,
 });
 ```
 
 The main options are:
 
-| Option | What it does |
-| --- | --- |
-| `baseUrl` | API root, including `/api/v2` |
-| `token` | Bearer token for signed-in requests |
-| `headers` | Headers added to every request |
-| `fetch` | Custom `fetch` implementation |
-| `signal` | Default `AbortSignal` for requests |
-| `timeoutMs` | Default timeout in milliseconds |
+| Option      | What it does                        |
+| ----------- | ----------------------------------- |
+| `baseUrl`   | API root, including `/api/v2`       |
+| `token`     | Bearer token for signed-in requests |
+| `headers`   | Headers added to every request      |
+| `fetch`     | Custom `fetch` implementation       |
+| `signal`    | Default `AbortSignal` for requests  |
+| `timeoutMs` | Default timeout in milliseconds     |
 
 Passing a string as the first argument is shorthand for `{ baseUrl: string }`.
 
 ## 👋 Your first request
 
 ```js
-const user = await th.users.get("kamix");
+const user = await th.users.get('kamix');
 console.log(user.displayName);
 ```
 
@@ -64,10 +64,10 @@ Most methods are asynchronous. If you forget `await`, you will get a promise ins
 Methods are grouped by the thing they work with, not by URL:
 
 ```js
-await th.users.get("kamix");                       // one account or organization
-await th.orgs.get("kamix");                        // organization details
-await th.extensions.get("kamix", "xterm");         // one extension
-await th.extensions.versions.list("kamix", "xterm"); // its versions
+await th.users.get('kamix'); // one account or organization
+await th.orgs.get('kamix'); // organization details
+await th.extensions.get('kamix', 'xterm'); // one extension
+await th.extensions.versions.list('kamix', 'xterm'); // its versions
 ```
 
 There is no top-level `getUser()` helper. Resource groups keep related methods together and make the call site easier to read.
@@ -100,7 +100,7 @@ for (const extension of page.data) {
 
 if (page._links.next) {
   const nextUrl = new URL(page._links.next, th.baseUrl);
-  const cursor = nextUrl.searchParams.get("cursor");
+  const cursor = nextUrl.searchParams.get('cursor');
   const nextPage = await th.extensions.list({ cursor });
 }
 ```
@@ -112,7 +112,7 @@ if (page._links.next) {
 Downloads return a standard `Blob`:
 
 ```js
-const source = await th.extensions.versions.download("kamix", "xterm", "1.0.0");
+const source = await th.extensions.versions.download('kamix', 'xterm', '1.0.0');
 const text = await source.text();
 ```
 
@@ -123,18 +123,18 @@ Image methods such as `th.users.avatar.get()` and `th.extensions.versions.source
 Methods that list or search take a query object:
 
 ```js
-const page = await th.extensions.search("terminal", {
+const page = await th.extensions.search('terminal', {
   limit: 10,
-  sort: "downloads",
-  timeoutMs: 5000
+  sort: 'downloads',
+  timeoutMs: 5000,
 });
 ```
 
 Methods that act on one resource take an optional final options object:
 
 ```js
-const extension = await th.extensions.get("kamix", "xterm", {
-  timeoutMs: 5000
+const extension = await th.extensions.get('kamix', 'xterm', {
+  timeoutMs: 5000,
 });
 ```
 
@@ -145,12 +145,12 @@ Both forms accept `signal` and `timeoutMs`. Query methods also accept their filt
 Types are included, so you can import response and payload types directly:
 
 ```ts
-import TwextHubKit from "@twextjs/twexthubkit";
-import type { ExtensionDetail, PageQuery } from "@twextjs/twexthubkit";
+import TwextHubKit from '@twextjs/twexthubkit';
+import type { ExtensionDetail, PageQuery } from '@twextjs/twexthubkit';
 
 const th = new TwextHubKit();
 const query: PageQuery = { limit: 20 };
-const extension: ExtensionDetail = await th.extensions.get("kamix", "xterm");
+const extension: ExtensionDetail = await th.extensions.get('kamix', 'xterm');
 ```
 
 The declarations are hand-written and cover every public method. See `types/index.d.ts` for the full shapes.

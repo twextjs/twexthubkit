@@ -10,7 +10,7 @@ export class ExtensionTransfersResource {
 
   list(namespace, id, options = {}) {
     return this.client.request(`${extensionPath(namespace, id)}/transfers`, {
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -18,7 +18,7 @@ export class ExtensionTransfersResource {
     return this.client.request(`${extensionPath(namespace, id)}/transfers`, {
       method: 'POST',
       json: { to },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -26,14 +26,14 @@ export class ExtensionTransfersResource {
     return this.client.request(transferPath(namespace, id, toNamespace), {
       method: 'DELETE',
       responseType: 'none',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   accept(namespace, id, toNamespace, options = {}) {
     return this.client.request(`${transferPath(namespace, id, toNamespace)}/accept`, {
       method: 'POST',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 }

@@ -26,18 +26,18 @@ Made and maintained by the [Twext Team](https://github.com/twextjs).
 ## 🚀 Usage
 
 ```js
-import TwextHubKit from "@twextjs/twexthubkit";
+import TwextHubKit from '@twextjs/twexthubkit';
 
 const th = new TwextHubKit();
 
-const user = await th.users.get("kamix");
+const user = await th.users.get('kamix');
 console.log(user.displayName);
 ```
 
 The default instance is used when no URL is given. To use another instance, pass its API URL:
 
 ```js
-const th = new TwextHubKit("https://twexts.sdisk.us/api/v2");
+const th = new TwextHubKit('https://twexts.sdisk.us/api/v2');
 ```
 
 All methods are asynchronous, so use `await` or `.then()`:
@@ -70,8 +70,8 @@ Sign in with your personal account:
 
 ```js
 const session = await th.sessions.create({
-  namespace: "your-name",
-  password: "your-password",
+  namespace: 'your-name',
+  password: 'your-password',
 });
 
 if (session.mfaRequired) {
@@ -98,18 +98,18 @@ TwextHubKit groups the API by area, so `th.extensions` handles extensions, `th.u
 ### Find extensions
 
 ```js
-const recent = await th.extensions.list({ sort: "recent", limit: 10 });
-const matches = await th.extensions.search("terminal");
+const recent = await th.extensions.list({ sort: 'recent', limit: 10 });
+const matches = await th.extensions.search('terminal');
 const popular = await th.extensions.trending();
 ```
 
 ### Look at one extension
 
 ```js
-const extension = await th.extensions.get("kamix", "xterm");
+const extension = await th.extensions.get('kamix', 'xterm');
 console.log(extension.description);
 
-const versions = await th.extensions.versions.list("kamix", "xterm");
+const versions = await th.extensions.versions.list('kamix', 'xterm');
 ```
 
 ### Update your profile
@@ -117,8 +117,8 @@ const versions = await th.extensions.versions.list("kamix", "xterm");
 ```js
 th.setToken(token);
 
-await th.users.update("your-name", {
-  bio: "I build TurboWarp extensions.",
+await th.users.update('your-name', {
+  bio: 'I build TurboWarp extensions.',
 });
 ```
 
@@ -135,7 +135,7 @@ console.log(inbox.unreadCount);
 Publishing needs a token with permission to publish and a gzipped Twext project tarball:
 
 ```js
-await th.extensions.versions.publish("your-name", "your-extension", tarball);
+await th.extensions.versions.publish('your-name', 'your-extension', tarball);
 ```
 
 ## 📥 Lists and downloads
@@ -151,7 +151,7 @@ console.log(page._links.next);
 Downloads and images come back as `Blob` objects, so you can save them, read them, or create an object URL in the browser.
 
 ```js
-const blob = await th.extensions.versions.download("kamix", "xterm", "latest");
+const blob = await th.extensions.versions.download('kamix', 'xterm', 'latest');
 ```
 
 ## 🧯 Errors
@@ -159,12 +159,12 @@ const blob = await th.extensions.versions.download("kamix", "xterm", "latest");
 When the API refuses a request, the client throws a `TwextHubError` with the HTTP status and a readable message. Network problems throw `TwextHubNetworkError`.
 
 ```js
-import TwextHubKit, { TwextHubError } from "@twextjs/twexthubkit";
+import TwextHubKit, { TwextHubError } from '@twextjs/twexthubkit';
 
 const th = new TwextHubKit();
 
 try {
-  await th.users.get("nobody");
+  await th.users.get('nobody');
 } catch (error) {
   if (error instanceof TwextHubError) {
     console.error(error.status, error.message);
@@ -177,7 +177,3 @@ try {
 ## 💭 Feedback and Contributing
 
 Found a bug or have an idea? [Open an issue](https://github.com/twextjs/twexthubkit/issues). Contributions are welcome; for larger changes, please open an issue first so we can agree on the approach.
-
-## 📄 License
-
-Apache-2.0. See [LICENSE](./LICENSE).

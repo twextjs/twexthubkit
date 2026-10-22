@@ -11,7 +11,7 @@ export class NotificationsResource {
   list(query = {}) {
     return this.client.request('/notifications', {
       query: pickQuery(query, ['unread', 'cursor', 'limit', 'dir']),
-      ...requestOptions(query)
+      ...requestOptions(query),
     });
   }
 
@@ -19,18 +19,22 @@ export class NotificationsResource {
     const body =
       payload.all === true
         ? { all: true }
-        : { ids: payload.ids.map(function (id) { return Number(id); }) };
+        : {
+            ids: payload.ids.map(function (id) {
+              return Number(id);
+            }),
+          };
     return this.client.request('/notifications', {
       method: 'PATCH',
       json: body,
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   markOneRead(id, options = {}) {
     return this.client.request(`/notifications/${pathValue(id, 'notification id')}`, {
       method: 'PATCH',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 }

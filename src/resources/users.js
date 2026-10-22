@@ -26,22 +26,22 @@ export class UsersResource {
       json: {
         namespace: payload.namespace,
         password: payload.password,
-        displayName: payload.displayName
+        displayName: payload.displayName,
       },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
   list(query = {}) {
     return this.client.request('/users', {
       query: pickQuery(query, PAGE_KEYS),
-      ...requestOptions(query)
+      ...requestOptions(query),
     });
   }
 
   get(namespace, options = {}) {
     return this.client.request(`/users/${pathValue(namespace, 'namespace')}`, {
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -62,9 +62,9 @@ export class UsersResource {
         github: payload.github,
         avatarUrl: payload.avatarUrl,
         bannerUrl: payload.bannerUrl,
-        termsAcceptedVersion: payload.termsAcceptedVersion
+        termsAcceptedVersion: payload.termsAcceptedVersion,
       },
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 
@@ -72,7 +72,7 @@ export class UsersResource {
     return this.client.request(`/users/${pathValue(namespace, 'namespace')}`, {
       method: 'DELETE',
       responseType: 'none',
-      ...requestOptions(options)
+      ...requestOptions(options),
     });
   }
 }

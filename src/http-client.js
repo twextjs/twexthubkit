@@ -10,7 +10,7 @@ import {
   networkErrorMessage,
   normalizeBaseUrl,
   normalizeTimeout,
-  normalizeToken
+  normalizeToken,
 } from './http-support.js';
 
 const ACCEPT_BY_TYPE = {
@@ -18,7 +18,7 @@ const ACCEPT_BY_TYPE = {
   text: '*/*',
   blob: '*/*',
   none: '*/*',
-  raw: '*/*'
+  raw: '*/*',
 };
 
 export class HttpClient {
@@ -45,7 +45,7 @@ export class HttpClient {
     const context = {
       ...options,
       method: options.method ?? 'GET',
-      url: this.buildUrl(path, options.query)
+      url: this.buildUrl(path, options.query),
     };
     const response = await this.send(path, context);
     return readResponse(response, context);
@@ -70,7 +70,7 @@ export class HttpClient {
         headers,
         body,
         signal,
-        redirect: options.redirect
+        redirect: options.redirect,
       });
     } catch (error) {
       const message = networkErrorMessage(error, url, timeoutMs);
