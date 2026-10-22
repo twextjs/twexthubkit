@@ -13,6 +13,21 @@ import {
   normalizeToken,
 } from './http-support.js';
 
+function isAbortError(error) {
+  return error?.name === 'AbortError' || error?.name === 'TimeoutError';
+}
+
+// An aborted read is a transport failure, so it keeps the status at 0 even when
+// the response it interrupted had an HTTP status of its own.
+function networkError(error, details) {
+  const message = networkErrorMessage(error, details.url, details.timeoutMs);
+  return new TwextHubNetworkError(message, {
+    method: details.method,
+    url: details.url,
+    cause: error,
+  });
+}
+
 const ACCEPT_BY_TYPE = {
   json: 'application/json',
   text: '*/*',
@@ -51,17 +66,16 @@ export class HttpClient {
     try {
       return await readResponse(response, context);
     } catch (error) {
-      if (error?.name === 'AbortError' || error?.name === 'TimeoutError') {
-        const timeoutMs =
-          options.timeoutMs === undefined ? this.timeoutMs : normalizeTimeout(options.timeoutMs);
-        const message = networkErrorMessage(error, context.url, timeoutMs);
-        throw new TwextHubNetworkError(message, {
-          method: context.method,
-          url: context.url,
-          cause: error,
-        });
+      if (!isAbortError(error)) {
+        throw error;
       }
-      throw error;
+      const timeoutMs =
+        options.timeoutMs === undefined ? this.timeoutMs : normalizeTimeout(options.timeoutMs);
+      throw networkError(error, {
+        method: context.method,
+        url: context.url,
+        timeoutMs,
+      });
     }
   }
 
@@ -88,12 +102,20 @@ export class HttpClient {
         redirect: options.redirect,
       });
     } catch (error) {
-      const message = networkErrorMessage(error, url, timeoutMs);
-      throw new TwextHubNetworkError(message, { method, url, cause: error });
+      throw networkError(error, { method, url, timeoutMs });
     }
 
     if (response.status >= 400) {
-      throw await buildHttpError(response, method, url);
+      let httpError;
+      try {
+        httpError = await buildHttpError(response, method, url);
+      } catch (error) {
+        if (!isAbortError(error)) {
+          throw error;
+        }
+        throw networkError(error, { method, url, timeoutMs });
+      }
+      throw httpError;
     }
     return response;
   }

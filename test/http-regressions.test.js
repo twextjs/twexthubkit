@@ -65,6 +65,46 @@ test.each(['AbortError', 'TimeoutError'])(
   },
 );
 
+test.each(['request', 'raw'])(
+  'normalizes error body %s aborts with status 0',
+  async function (methodName) {
+    const cause = new DOMException('error body interrupted', 'AbortError');
+    const client = new HttpClient('https://example.com', {
+      fetch: vi.fn().mockResolvedValue({
+        status: 500,
+        statusText: 'Server Error',
+        headers: new Headers(),
+        text: vi.fn().mockRejectedValue(cause),
+      }),
+    });
+    const error = await client[methodName]('/meta', { method: 'POST' }).catch(function (caught) {
+      return caught;
+    });
+    expect(error).toBeInstanceOf(TwextHubNetworkError);
+    expect(error).toMatchObject({
+      status: 0,
+      method: 'POST',
+      url: 'https://example.com/meta',
+      cause,
+    });
+    expect(error.message).toBe('Request to https://example.com/meta was aborted');
+  },
+);
+
+test('keeps unrelated error body failures unchanged', async function () {
+  const cause = new TypeError('error body failed');
+  const client = new HttpClient('https://example.com', {
+    fetch: vi.fn().mockResolvedValue({
+      status: 500,
+      statusText: 'Server Error',
+      headers: new Headers(),
+      text: vi.fn().mockRejectedValue(cause),
+    }),
+  });
+  await expect(client.request('/meta')).rejects.toBe(cause);
+  await expect(client.raw('/meta')).rejects.toBe(cause);
+});
+
 test('keeps unrelated body errors and JSON errors unchanged', async function () {
   const cause = new TypeError('body failed');
   const client = new HttpClient('https://example.com', {
