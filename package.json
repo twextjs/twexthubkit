@@ -1,0 +1,73 @@
+{
+  "name": "@twextjs/twexthubkit",
+  "version": "0.1.0",
+  "description": "A JavaScript and TypeScript client for the TwextHub v2 API.",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./src/index.js",
+      "default": "./src/index.js"
+    }
+  },
+  "files": [
+    "src",
+    "types",
+    "README.md",
+    "LICENSE",
+    "product.yml"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "check": "npm run product:check && npm run lint && npm run format:check && npm run typecheck && npm test",
+    "test": "vitest run",
+    "test:node": "vitest run --project node",
+    "test:browser": "vitest run --project browser",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "doctoc": "doctoc --notitle .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "product:sync": "node scripts/product.mjs",
+    "product:check": "node scripts/product.mjs --check"
+  },
+  "keywords": [
+    "twexthub",
+    "twext",
+    "turbowarp",
+    "registry",
+    "sdk",
+    "api-client"
+  ],
+  "author": "Twext Team",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twextjs/twexthubkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/twextjs/twexthubkit/issues"
+  },
+  "homepage": "https://github.com/twextjs/twexthubkit#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@lifelinejs/lifeline": "^0.1.0",
+    "@vitest/browser-playwright": "^5.0.5",
+    "doctoc": "^2.5.0",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0",
+    "playwright": "^1.64.1",
+    "prettier": "^3.9.10",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.5",
+    "yaml": "^2.9.1"
+  }
+}
