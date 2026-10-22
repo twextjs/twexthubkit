@@ -24,6 +24,11 @@ function loadProduct() {
   if (!product.defaults || typeof product.defaults.apiBaseUrl !== 'string') {
     throw new Error('product.yml defaults.apiBaseUrl must be a string');
   }
+  for (const key of ['success', 'error', 'progress', 'bullet']) {
+    if (typeof product.symbols?.[key] !== 'string' || product.symbols[key].trim() === '') {
+      throw new Error(`product.yml symbols.${key} must be a non-empty string`);
+    }
+  }
   return product;
 }
 
@@ -31,7 +36,10 @@ function renderProductModule(product) {
   const json = JSON.stringify(product, null, 2);
   return [
     '// Generated from product.yml by scripts/product.mjs. Do not edit by hand.',
-    `export const product = Object.freeze(${json});`,
+    `const metadata = ${json};`,
+    'Object.freeze(metadata.defaults);',
+    'Object.freeze(metadata.symbols);',
+    'export const product = Object.freeze(metadata);',
     '',
   ].join('\n');
 }
