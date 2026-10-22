@@ -1,8 +1,7 @@
 // Resource-level behavior: each group builds the documented path and sends the
 // documented body. The transport itself is covered in client.test.js.
 
-import { test } from 'node:test';
-import assert from 'node:assert/strict';
+import { expect, onTestFinished, test } from 'vitest';
 import TwextHubKit from '../src/index.js';
 import { sendJson, startServer } from './support/server.js';
 
@@ -10,7 +9,7 @@ function collectionResponse(response) {
   sendJson(response, 200, { data: [], _links: { self: '', next: null, prev: null } });
 }
 
-test('auth, sessions, and tokens build their paths and bodies', async function (t) {
+test('auth, sessions, and tokens build their paths and bodies', async function () {
   const server = await startServer(function (request, response) {
     if (request.url.includes('/sessions')) {
       sendJson(response, 201, { token: 'session-token' });
@@ -22,43 +21,43 @@ test('auth, sessions, and tokens build their paths and bodies', async function (
     }
     sendJson(response, 200, { authorizationUrl: 'https://id.example/authorize' });
   });
-  t.after(function () {
+  onTestFinished(function () {
     return server.close();
   });
 
   const th = new TwextHubKit(server.url);
   await th.auth.getOidcAuthorizeUrl({ returnTo: '/settings' });
-  assert.equal(server.requests[0].url, '/api/v2/auth/oidc/authorize?returnTo=%2Fsettings');
+  expect(server.requests[0].url).toBe('/api/v2/auth/oidc/authorize?returnTo=%2Fsettings');
 
   await th.sessions.create({ namespace: 'kamix', password: 'secret' });
-  assert.equal(server.requests[1].url, '/api/v2/sessions');
-  assert.deepEqual(JSON.parse(server.requests[1].body.toString()), {
+  expect(server.requests[1].url).toBe('/api/v2/sessions');
+  expect(JSON.parse(server.requests[1].body.toString())).toEqual({
     namespace: 'kamix',
     password: 'secret'
   });
 
   await th.tokens.create({ name: 'CI', scopes: ['publish'], expiresInDays: 30 });
-  assert.equal(server.requests[2].url, '/api/v2/tokens');
-  assert.deepEqual(JSON.parse(server.requests[2].body.toString()), {
+  expect(server.requests[2].url).toBe('/api/v2/tokens');
+  expect(JSON.parse(server.requests[2].body.toString())).toEqual({
     name: 'CI',
     scopes: ['publish'],
     expiresInDays: 30
   });
 });
 
-test('user updates and binary image uploads use the right verbs and content types', async function (t) {
+test('user updates and binary image uploads use the right verbs and content types', async function () {
   const server = await startServer(function (request, response) {
     sendJson(response, 200, { namespace: 'kamix', displayName: 'Kamix' });
   });
-  t.after(function () {
+  onTestFinished(function () {
     return server.close();
   });
 
   const th = new TwextHubKit(server.url, { token: 'secret' });
   await th.users.update('kamix', { displayName: 'Kamix', bio: 'New bio' });
-  assert.equal(server.requests[0].method, 'PATCH');
-  assert.equal(server.requests[0].url, '/api/v2/users/kamix');
-  assert.deepEqual(JSON.parse(server.requests[0].body.toString()), {
+  expect(server.requests[0].method).toBe('PATCH');
+  expect(server.requests[0].url).toBe('/api/v2/users/kamix');
+  expect(JSON.parse(server.requests[0].body.toString())).toEqual({
     displayName: 'Kamix',
     bio: 'New bio'
   });
@@ -66,13 +65,13 @@ test('user updates and binary image uploads use the right verbs and content type
   await th.users.avatar.upload('kamix', new Uint8Array([1, 2, 3]), {
     contentType: 'image/png'
   });
-  assert.equal(server.requests[1].method, 'PUT');
-  assert.equal(server.requests[1].url, '/api/v2/users/kamix/avatar');
-  assert.equal(server.requests[1].headers['content-type'], 'image/png');
-  assert.deepEqual([...server.requests[1].body], [1, 2, 3]);
+  expect(server.requests[1].method).toBe('PUT');
+  expect(server.requests[1].url).toBe('/api/v2/users/kamix/avatar');
+  expect(server.requests[1].headers['content-type']).toBe('image/png');
+  expect([...server.requests[1].body]).toEqual([1, 2, 3]);
 });
 
-test('organization owners, extensions, and webhooks use their namespaced paths', async function (t) {
+test('organization owners, extensions, and webhooks use their namespaced paths', async function () {
   const server = await startServer(function (request, response) {
     if (request.method === 'PUT' && request.url.includes('/owners/')) {
       response.statusCode = 204;
@@ -85,29 +84,29 @@ test('organization owners, extensions, and webhooks use their namespaced paths',
     }
     sendJson(response, 201, { id: 1, url: 'https://example.com/hook', secret: 's' });
   });
-  t.after(function () {
+  onTestFinished(function () {
     return server.close();
   });
 
   const th = new TwextHubKit(server.url, { token: 'secret' });
   await th.orgs.addOwner('acme', 'bob');
-  assert.equal(server.requests[0].method, 'PUT');
-  assert.equal(server.requests[0].url, '/api/v2/orgs/acme/owners/bob');
+  expect(server.requests[0].method).toBe('PUT');
+  expect(server.requests[0].url).toBe('/api/v2/orgs/acme/owners/bob');
 
   await th.orgs.listExtensions('acme', { sort: 'downloads', limit: 5 });
   const extensionUrl = new URL(server.requests[1].url, 'http://localhost');
-  assert.equal(extensionUrl.pathname, '/api/v2/orgs/acme/extensions');
-  assert.equal(extensionUrl.searchParams.get('sort'), 'downloads');
-  assert.equal(extensionUrl.searchParams.get('limit'), '5');
+  expect(extensionUrl.pathname).toBe('/api/v2/orgs/acme/extensions');
+  expect(extensionUrl.searchParams.get('sort')).toBe('downloads');
+  expect(extensionUrl.searchParams.get('limit')).toBe('5');
 
   await th.orgs.webhooks.create('acme', {
     url: 'https://example.com/hook',
     events: ['version.published']
   });
-  assert.equal(server.requests[2].url, '/api/v2/orgs/acme/webhooks');
+  expect(server.requests[2].url).toBe('/api/v2/orgs/acme/webhooks');
 });
 
-test('extension publishing, tags, owners, and transfers send the documented bodies', async function (t) {
+test('extension publishing, tags, owners, and transfers send the documented bodies', async function () {
   const server = await startServer(function (request, response) {
     if (request.method === 'PUT' || (request.method === 'DELETE' && request.url.includes('/tags/'))) {
       response.statusCode = 204;
@@ -116,32 +115,32 @@ test('extension publishing, tags, owners, and transfers send the documented bodi
     }
     sendJson(response, 200, { data: { namespace: 'kamix', id: 'xterm' } });
   });
-  t.after(function () {
+  onTestFinished(function () {
     return server.close();
   });
 
   const th = new TwextHubKit(server.url, { token: 'secret' });
   await th.extensions.versions.publish('kamix', 'xterm', new Uint8Array([31, 139, 8]));
-  assert.equal(server.requests[0].method, 'POST');
-  assert.equal(server.requests[0].url, '/api/v2/@kamix/xterm/versions');
-  assert.equal(server.requests[0].headers['content-type'], 'application/gzip');
-  assert.deepEqual([...server.requests[0].body], [31, 139, 8]);
+  expect(server.requests[0].method).toBe('POST');
+  expect(server.requests[0].url).toBe('/api/v2/@kamix/xterm/versions');
+  expect(server.requests[0].headers['content-type']).toBe('application/gzip');
+  expect([...server.requests[0].body]).toEqual([31, 139, 8]);
 
   await th.extensions.tags.set('kamix', 'xterm', 'next', '1.0.0');
-  assert.equal(server.requests[1].url, '/api/v2/@kamix/xterm/tags/next');
-  assert.deepEqual(JSON.parse(server.requests[1].body.toString()), { version: '1.0.0' });
+  expect(server.requests[1].url).toBe('/api/v2/@kamix/xterm/tags/next');
+  expect(JSON.parse(server.requests[1].body.toString())).toEqual({ version: '1.0.0' });
 
   await th.extensions.owners.accept('kamix', 'xterm', 'bob');
-  assert.equal(server.requests[2].method, 'POST');
-  assert.equal(server.requests[2].url, '/api/v2/@kamix/xterm/owners/bob/accept');
+  expect(server.requests[2].method).toBe('POST');
+  expect(server.requests[2].url).toBe('/api/v2/@kamix/xterm/owners/bob/accept');
 
   await th.extensions.transfers.offer('kamix', 'xterm', 'bob');
-  assert.equal(server.requests[3].method, 'POST');
-  assert.equal(server.requests[3].url, '/api/v2/@kamix/xterm/transfers');
-  assert.deepEqual(JSON.parse(server.requests[3].body.toString()), { to: 'bob' });
+  expect(server.requests[3].method).toBe('POST');
+  expect(server.requests[3].url).toBe('/api/v2/@kamix/xterm/transfers');
+  expect(JSON.parse(server.requests[3].body.toString())).toEqual({ to: 'bob' });
 });
 
-test('notifications, reports, and admin helpers build their queries and bodies', async function (t) {
+test('notifications, reports, and admin helpers build their queries and bodies', async function () {
   const server = await startServer(function (request, response) {
     if (request.url.includes('/notifications')) {
       sendJson(response, 200, { updated: 3 });
@@ -161,16 +160,16 @@ test('notifications, reports, and admin helpers build their queries and bodies',
     }
     collectionResponse(response);
   });
-  t.after(function () {
+  onTestFinished(function () {
     return server.close();
   });
 
   const th = new TwextHubKit(server.url, { token: 'secret' });
   await th.notifications.markRead({ all: true });
-  assert.deepEqual(JSON.parse(server.requests[0].body.toString()), { all: true });
+  expect(JSON.parse(server.requests[0].body.toString())).toEqual({ all: true });
 
   await th.notifications.markRead({ ids: ['12', '34'] });
-  assert.deepEqual(JSON.parse(server.requests[1].body.toString()), { ids: [12, 34] });
+  expect(JSON.parse(server.requests[1].body.toString())).toEqual({ ids: [12, 34] });
 
   await th.reports.create({
     targetType: 'extension',
@@ -179,20 +178,20 @@ test('notifications, reports, and admin helpers build their queries and bodies',
     reason: 'spam',
     description: 'Details'
   });
-  assert.equal(server.requests[2].url, '/api/v2/reports');
-  assert.equal(JSON.parse(server.requests[2].body.toString()).targetExtensionId, 'xterm');
+  expect(server.requests[2].url).toBe('/api/v2/reports');
+  expect(JSON.parse(server.requests[2].body.toString()).targetExtensionId).toBe('xterm');
 
   await th.admin.listPendingVersions();
   const pendingUrl = new URL(server.requests[3].url, 'http://localhost');
-  assert.equal(pendingUrl.pathname, '/api/v2/versions');
-  assert.equal(pendingUrl.searchParams.get('status'), 'pending');
+  expect(pendingUrl.pathname).toBe('/api/v2/versions');
+  expect(pendingUrl.searchParams.get('status')).toBe('pending');
 
   await th.admin.setQuota('kamix', { maxBlobBytes: 10 });
-  assert.equal(server.requests[4].url, '/api/v2/admin/users/kamix/quota');
-  assert.deepEqual(JSON.parse(server.requests[4].body.toString()), { maxBlobBytes: 10 });
+  expect(server.requests[4].url).toBe('/api/v2/admin/users/kamix/quota');
+  expect(JSON.parse(server.requests[4].body.toString())).toEqual({ maxBlobBytes: 10 });
 });
 
-test('badges and blobs use their own response types and paths', async function (t) {
+test('badges and blobs use their own response types and paths', async function () {
   const server = await startServer(function (request, response) {
     if (request.url.startsWith('/api/v2/blobs/')) {
       response.statusCode = 200;
@@ -204,19 +203,19 @@ test('badges and blobs use their own response types and paths', async function (
     response.setHeader('content-type', 'image/svg+xml');
     response.end('<svg></svg>');
   });
-  t.after(function () {
+  onTestFinished(function () {
     return server.close();
   });
 
   const th = new TwextHubKit(server.url);
   const badge = await th.badges.getField('kamix', 'xterm', 'downloads', { label: 'downloads' });
-  assert.equal(badge, '<svg></svg>');
+  expect(badge).toBe('<svg></svg>');
   const badgeUrl = new URL(server.requests[0].url, 'http://localhost');
-  assert.equal(badgeUrl.pathname, '/api/v2/badge/@kamix/xterm/downloads');
-  assert.equal(badgeUrl.searchParams.get('label'), 'downloads');
+  expect(badgeUrl.pathname).toBe('/api/v2/badge/@kamix/xterm/downloads');
+  expect(badgeUrl.searchParams.get('label')).toBe('downloads');
 
   const digest = 'a'.repeat(64);
   const blob = await th.blobs.get(digest);
-  assert.equal(await blob.text(), 'var x = 1;');
-  assert.equal(server.requests[1].url, `/api/v2/blobs/${digest}`);
+  expect(await blob.text()).toBe('var x = 1;');
+  expect(server.requests[1].url).toBe(`/api/v2/blobs/${digest}`);
 });

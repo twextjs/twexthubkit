@@ -331,7 +331,8 @@ The package is ESM and has no runtime dependencies.
 
 ```bash
 npm install
-npm test              # node:test against a local mock HTTP server
+npm test              # Vitest against a local mock HTTP server
+npm run test:watch    # Vitest in watch mode
 npm run typecheck     # checks types/index.d.ts with a consumer file
 npm run product:check # product.yml, package.json, and src/product.js agree
 npm run check         # all of the above
