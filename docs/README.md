@@ -4,6 +4,18 @@ This is the developer documentation for TwextHubKit. It explains how to install 
 
 If you are new to the package, start with [Getting started](./getting-started.md). If you know what you need, the [API reference](./api-reference.md) lists every method.
 
+## 📕 Table of Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [🗺️ Documentation map](#-documentation-map)
+- [⚡ The short version](#-the-short-version)
+- [🧰 Requirements](#-requirements)
+- [💬 Need help?](#-need-help)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## 🗺️ Documentation map
 
 | Page                                                                 | What it covers                                                    |

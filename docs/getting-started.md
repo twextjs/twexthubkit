@@ -2,6 +2,24 @@
 
 This page takes you from installing TwextHubKit to making your first useful requests. It assumes you are comfortable with JavaScript, promises, and `async`/`await`.
 
+## 📕 Table of Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [📦 Install](#-install)
+- [🧱 Create a client](#-create-a-client)
+- [👋 Your first request](#-your-first-request)
+- [🗂️ How methods are organized](#-how-methods-are-organized)
+- [📄 Lists and pages](#-lists-and-pages)
+- [⬇️ Downloads](#-downloads)
+- [🛠️ Query objects and request options](#-query-objects-and-request-options)
+- [🧾 TypeScript](#-typescript)
+- [🚧 Common mistakes](#-common-mistakes)
+- [➡️ Next steps](#-next-steps)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## 📦 Install
 
 ```sh

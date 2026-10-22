@@ -2,6 +2,27 @@
 
 This page is for working on TwextHubKit itself: running the tests, changing the client, and keeping the declarations and package metadata in sync.
 
+## 📕 Table of Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [🧰 Setup](#-setup)
+- [🧪 Commands](#-commands)
+- [🗂️ Project layout](#-project-layout)
+- [🔄 How a request flows](#-how-a-request-flows)
+- [🧪 What the tests cover](#-what-the-tests-cover)
+  - [Node tests](#node-tests)
+  - [Browser tests](#browser-tests)
+- [➕ Adding or changing an API method](#-adding-or-changing-an-api-method)
+- [🏷️ Product metadata](#-product-metadata)
+- [📦 Packaging check](#-packaging-check)
+- [🧭 Design choices](#-design-choices)
+- [📝 Documentation](#-documentation)
+- [💬 Getting help](#-getting-help)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## 🧰 Setup
 
 You need Node.js 24 or newer and npm.
@@ -24,6 +45,7 @@ The Playwright download is only needed for the browser test project. It installs
 | `npm run lint`          | Checks JavaScript with ESLint                     |
 | `npm run format`        | Formats the repository with Prettier              |
 | `npm run format:check`  | Verifies formatting without writing changes       |
+| `npm run doctoc`        | Regenerates the table of contents in every doc    |
 | `npm run typecheck`     | Checks the TypeScript declarations                |
 | `npm run product:check` | Verifies the generated metadata is current        |
 | `npm run product:sync`  | Regenerates `src/product.js` from `product.yml`   |
@@ -141,6 +163,14 @@ The package includes `src`, `types`, `README.md`, `LICENSE`, and `product.yml`. 
 ## 📝 Documentation
 
 The documentation home is [docs/README.md](./README.md). The user-facing overview is the repository [README](../README.md). When a public method changes, update the API reference and any guide that shows the old call.
+
+Every page's table of contents is generated:
+
+```bash
+npm run doctoc
+```
+
+It rewrites the block between the `START doctoc` and `END doctoc` comments. Don't hand-edit those entries; run the command and commit what it produces. The headings in these files carry emoji, and new pages should follow the same convention.
 
 ## 💬 Getting help
 

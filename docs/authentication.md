@@ -10,6 +10,28 @@ TwextHubKit supports three ways to get that identity:
 
 All three end with a bearer token. Once the client has it, every request includes it automatically.
 
+## 📕 Table of Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [🪪 Public requests](#-public-requests)
+- [🔑 Sign in with a password](#-sign-in-with-a-password)
+- [🧩 Finish an MFA sign-in](#-finish-an-mfa-sign-in)
+  - [With a passkey](#with-a-passkey)
+  - [With a backup code](#with-a-backup-code)
+- [🛂 Sign in with OIDC](#-sign-in-with-oidc)
+  - [Link an OIDC identity to an existing account](#link-an-oidc-identity-to-an-existing-account)
+- [🤖 Automation tokens](#-automation-tokens)
+  - [Scopes](#scopes)
+  - [Manage tokens](#manage-tokens)
+- [🚪 Sessions and signing out](#-sessions-and-signing-out)
+- [📜 Accepting the terms](#-accepting-the-terms)
+- [🛡️ Keep tokens safe](#-keep-tokens-safe)
+- [➡️ Next steps](#-next-steps)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## 🪪 Public requests
 
 Requests without a token still work for public data:

@@ -4,6 +4,30 @@
 
 TwextHubKit makes it easy to browse and manage a TwextHub registry from JavaScript or TypeScript. It handles the API requests, tokens, downloads, and errors for you, so you can focus on your project.
 
+## 📕 Table of Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [🌟 Highlights](#-highlights)
+- [ℹ️ Overview](#-overview)
+  - [✍️ Authors](#-authors)
+- [🚀 Usage](#-usage)
+- [⬇️ Installation](#-installation)
+- [📚 Documentation](#-documentation)
+- [🔐 Authentication](#-authentication)
+- [🧭 Common tasks](#-common-tasks)
+  - [Find extensions](#find-extensions)
+  - [Look at one extension](#look-at-one-extension)
+  - [Update your profile](#update-your-profile)
+  - [Read notifications](#read-notifications)
+  - [Publish a version](#publish-a-version)
+- [📥 Lists and downloads](#-lists-and-downloads)
+- [🧯 Errors](#-errors)
+- [💭 Feedback and Contributing](#-feedback-and-contributing)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## 🌟 Highlights
 
 - Browse users, organizations, extensions, versions, and tags.

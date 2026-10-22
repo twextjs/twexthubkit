@@ -4,6 +4,48 @@ This page lists every public method in TwextHubKit. Methods are grouped by the p
 
 All asynchronous methods return a promise. HTTP failures throw `TwextHubError`; transport failures throw `TwextHubNetworkError`. See [Errors and requests](./guides/errors-and-requests.md) for handling and retry guidance.
 
+## 📕 Table of Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Contents](#contents)
+- [Client](#client)
+  - [`new TwextHubKit()`](#new-twexthubkit)
+  - [`new TwextHubKit(baseUrl)`](#new-twexthubkitbaseurl)
+  - [`new TwextHubKit(options)`](#new-twexthubkitoptions)
+  - [`new TwextHubKit(baseUrl, options)`](#new-twexthubkitbaseurl-options)
+- [auth](#auth)
+- [sessions](#sessions)
+- [tokens](#tokens)
+- [users](#users)
+  - [Account webhooks](#account-webhooks)
+  - [Avatars and banners](#avatars-and-banners)
+- [orgs](#orgs)
+  - [Organization webhooks](#organization-webhooks)
+  - [Avatars and banners](#avatars-and-banners-1)
+- [notifications](#notifications)
+- [reports](#reports)
+- [extensions](#extensions)
+  - [Versions](#versions)
+  - [Tags](#tags)
+  - [Owners](#owners)
+  - [Transfers](#transfers)
+  - [Extension webhooks](#extension-webhooks)
+- [badges](#badges)
+- [instance](#instance)
+- [blobs](#blobs)
+- [admin](#admin)
+- [Options and common types](#options-and-common-types)
+  - [Request options](#request-options)
+  - [Pages and collections](#pages-and-collections)
+  - [Binary data](#binary-data)
+  - [Enumerated values](#enumerated-values)
+  - [Payload types](#payload-types)
+  - [Response types](#response-types)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Contents
 
 - [Client](#client)

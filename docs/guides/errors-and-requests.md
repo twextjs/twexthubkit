@@ -2,6 +2,28 @@
 
 TwextHubKit keeps request behavior predictable: one transport, two error types, and the same options everywhere. This guide explains how requests are configured and how to handle failures without guessing.
 
+## 📕 Table of Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [🧱 How a request is built](#-how-a-request-is-built)
+- [⚙️ Where options go](#-where-options-go)
+  - [Lists and searches take one query object](#lists-and-searches-take-one-query-object)
+  - [Single-resource and write methods take a final options object](#single-resource-and-write-methods-take-a-final-options-object)
+- [⏱️ Timeouts](#-timeouts)
+- [🛑 Cancellation](#-cancellation)
+- [🚨 Two error types](#-two-error-types)
+  - [`TwextHubError`](#twexthuberror)
+  - [`TwextHubNetworkError`](#twexthubnetworkerror)
+- [🔁 Retries](#-retries)
+- [🚦 Common statuses](#-common-statuses)
+- [📦 Response bodies](#-response-bodies)
+- [🧾 A note on headers](#-a-note-on-headers)
+- [➡️ Next steps](#-next-steps)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## 🧱 How a request is built
 
 Every method eventually calls the same client, which:

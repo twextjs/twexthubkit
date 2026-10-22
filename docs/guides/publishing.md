@@ -2,6 +2,28 @@
 
 This guide covers the write side of an extension: uploading a version, moving tags, adding co-owners, transferring an extension, and receiving webhooks. It assumes you have a token with the right scopes and that the account has accepted the current terms.
 
+## 📕 Table of Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [✅ Before you publish](#-before-you-publish)
+- [📦 What publish returns](#-what-publish-returns)
+- [🧐 Reviewing and deprecating](#-reviewing-and-deprecating)
+- [🗑️ Yanking and deleting](#-yanking-and-deleting)
+- [🏷️ Dist-tags](#-dist-tags)
+- [👥 Co-owners](#-co-owners)
+- [🔁 Transfers](#-transfers)
+- [🪝 Webhooks](#-webhooks)
+  - [Create a webhook](#create-a-webhook)
+  - [Inspect and remove](#inspect-and-remove)
+  - [Deliveries](#deliveries)
+- [🏢 Publishing for an organization](#-publishing-for-an-organization)
+- [🔐 Permissions in practice](#-permissions-in-practice)
+- [➡️ Next steps](#-next-steps)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## ✅ Before you publish
 
 You will need:

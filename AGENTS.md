@@ -1,3 +1,19 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Agent Guidelines](#agent-guidelines)
+  - [1. Working principles](#1-working-principles)
+  - [2. Plan before coding](#2-plan-before-coding)
+  - [3. JavaScript style: readability first](#3-javascript-style-readability-first)
+  - [4. Architecture and backend behavior](#4-architecture-and-backend-behavior)
+  - [5. Frontend behavior and implementation](#5-frontend-behavior-and-implementation)
+  - [6. Visual design: avoid generic AI-generated UI](#6-visual-design-avoid-generic-ai-generated-ui)
+  - [7. Safeguards for completely new projects](#7-safeguards-for-completely-new-projects)
+  - [8. Testing and verification](#8-testing-and-verification)
+  - [9. Completion report](#9-completion-report)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Agent Guidelines
 
 These rules apply to every change in this repository, including code, tests, documentation, configuration, and UI. The goal is understandable, reliable software that fits the project—not code that merely looks impressive in a demo.

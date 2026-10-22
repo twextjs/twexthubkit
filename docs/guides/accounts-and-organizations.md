@@ -2,6 +2,31 @@
 
 TwextHub has two kinds of namespace: personal accounts and organizations. They share a public profile shape, but they are managed differently. This guide covers profiles, images, organization owners, notifications, and reports.
 
+## 📕 Table of Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [👤 Your account](#-your-account)
+  - [Create an account](#create-an-account)
+  - [Update a profile](#update-a-profile)
+  - [Change a password](#change-a-password)
+  - [Delete an account](#delete-an-account)
+- [🖼️ Avatars and banners](#-avatars-and-banners)
+- [🏢 Organizations](#-organizations)
+  - [Create and update](#create-and-update)
+  - [Owners](#owners)
+  - [Organization extensions](#organization-extensions)
+  - [Delete an organization](#delete-an-organization)
+- [🔔 Notifications](#-notifications)
+  - [Mark as read](#mark-as-read)
+- [🚩 Reports](#-reports)
+  - [See your reports](#see-your-reports)
+- [🔐 Who can do what](#-who-can-do-what)
+- [➡️ Next steps](#-next-steps)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## 👤 Your account
 
 The signed-in account is available with `users.me()`:
