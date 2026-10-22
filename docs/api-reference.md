@@ -83,7 +83,7 @@ const th = new TwextHubKit('https://example.com/api/v2');
 
 ### `new TwextHubKit(options)`
 
-Creates a client with a base URL, token, headers, fetch implementation, default signal, or default timeout.
+Creates a client with a base URL, token, headers, fetch implementation, or default timeout.
 
 ```js
 const th = new TwextHubKit({

@@ -61,10 +61,11 @@ The main options are:
 | `token`     | Bearer token for signed-in requests |
 | `headers`   | Headers added to every request      |
 | `fetch`     | Custom `fetch` implementation       |
-| `signal`    | Default `AbortSignal` for requests  |
 | `timeoutMs` | Default timeout in milliseconds     |
 
 Passing a string as the first argument is shorthand for `{ baseUrl: string }`.
+
+There is no client-level `signal`. Pass `signal` in the query or options object of the request you want to cancel; [Query objects and request options](#️-query-objects-and-request-options) shows where it belongs.
 
 ## 👋 Your first request
 
