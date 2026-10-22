@@ -22,6 +22,9 @@ const th = new TwextHubKit('https://twexts.sdisk.us/api/v2', {
   timeoutMs: 5000,
 });
 
+// @ts-expect-error Cancellation signals belong to individual requests.
+new TwextHubKit({ signal: new AbortController().signal });
+
 th.setToken(null);
 th.setToken('token');
 

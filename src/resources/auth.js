@@ -2,7 +2,7 @@
 // and the WebAuthn/MFA ceremonies. Passkey payloads are passed through as the
 // browser produced them; this module does not inspect PublicKeyCredential.
 
-import { pickQuery, requestOptions } from '../paths.js';
+import { pathValue, pickQuery, requestOptions } from '../paths.js';
 
 export class AuthResource {
   constructor(client) {
@@ -59,7 +59,7 @@ export class AuthResource {
   }
 
   deleteOidcIdentity(id, options = {}) {
-    return this.client.request(`/auth/oidc/identities/${encodeURIComponent(id)}`, {
+    return this.client.request(`/auth/oidc/identities/${pathValue(id, 'OIDC identity id')}`, {
       method: 'DELETE',
       responseType: 'none',
       ...requestOptions(options),
@@ -86,7 +86,7 @@ export class AuthResource {
   }
 
   renamePasskey(id, payload, options = {}) {
-    return this.client.request(`/auth/mfa/passkeys/${encodeURIComponent(id)}`, {
+    return this.client.request(`/auth/mfa/passkeys/${pathValue(id, 'passkey id')}`, {
       method: 'PATCH',
       json: { label: payload.label },
       ...requestOptions(options),
@@ -94,7 +94,7 @@ export class AuthResource {
   }
 
   deletePasskey(id, options = {}) {
-    return this.client.request(`/auth/mfa/passkeys/${encodeURIComponent(id)}`, {
+    return this.client.request(`/auth/mfa/passkeys/${pathValue(id, 'passkey id')}`, {
       method: 'DELETE',
       responseType: 'none',
       ...requestOptions(options),

@@ -8,10 +8,10 @@ TwextHubKit keeps request behavior predictable: one transport, two error types, 
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [🧱 How a request is built](#-how-a-request-is-built)
-- [⚙️ Where options go](#-where-options-go)
+- [⚙️ Where options go](#️-where-options-go)
   - [Lists and searches take one query object](#lists-and-searches-take-one-query-object)
   - [Single-resource and write methods take a final options object](#single-resource-and-write-methods-take-a-final-options-object)
-- [⏱️ Timeouts](#-timeouts)
+- [⏱️ Timeouts](#️-timeouts)
 - [🛑 Cancellation](#-cancellation)
 - [🚨 Two error types](#-two-error-types)
   - [`TwextHubError`](#twexthuberror)
@@ -20,7 +20,7 @@ TwextHubKit keeps request behavior predictable: one transport, two error types, 
 - [🚦 Common statuses](#-common-statuses)
 - [📦 Response bodies](#-response-bodies)
 - [🧾 A note on headers](#-a-note-on-headers)
-- [➡️ Next steps](#-next-steps)
+- [➡️ Next steps](#️-next-steps)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -91,7 +91,7 @@ Override it per request:
 await th.users.me({ timeoutMs: 2000 });
 ```
 
-`timeoutMs` is in milliseconds. `0`, `null`, and `undefined` mean no timeout. A negative or non-numeric value throws a `TypeError` when the client is created or the request starts.
+`timeoutMs` is in milliseconds. At construction, `0`, `null`, and `undefined` mean no timeout. Per request, `undefined` inherits the client default; `null` and `0` explicitly disable the timeout, even when a default exists. A negative or non-numeric value throws a `TypeError` when the client is created or the request starts.
 
 A timeout becomes a `TwextHubNetworkError`:
 
@@ -130,13 +130,7 @@ try {
 }
 ```
 
-You can also give the client a default signal:
-
-```js
-const th = new TwextHubKit({ signal: controller.signal });
-```
-
-A per-request signal is combined with the client default and the timeout. If any of them aborts, the request stops.
+A per-request signal is combined with the timeout. If either aborts, the request stops.
 
 ## 🚨 Two error types
 
@@ -177,7 +171,7 @@ Useful fields:
 
 ### `TwextHubNetworkError`
 
-The request never produced an HTTP response. This covers DNS failures, connection errors, timeouts, and aborts. Its `status` is `0`, which makes it easy to tell apart from a server refusal.
+The request failed during transport or while reading the response body. This covers DNS failures, connection errors, timeouts, and aborts. Its `status` is `0`, which makes it easy to tell apart from a server refusal.
 
 ```js
 import { TwextHubNetworkError } from '@twextjs/twexthubkit';
@@ -201,6 +195,9 @@ When you do retry, keep it to requests that are safe to repeat:
 
 ```js
 async function getWithRetry(path, attempts = 3) {
+  if (!Number.isInteger(attempts) || attempts < 1) {
+    throw new TypeError('attempts must be a positive integer');
+  }
   let lastError;
 
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
@@ -209,8 +206,12 @@ async function getWithRetry(path, attempts = 3) {
     } catch (error) {
       lastError = error;
 
+      const aborted =
+        error?.name === 'AbortError' ||
+        (error instanceof TwextHubNetworkError && error.cause?.name === 'AbortError');
       const retryable =
-        error instanceof TwextHubNetworkError || error.status === 429 || error.status === 503;
+        !aborted &&
+        (error instanceof TwextHubNetworkError || error?.status === 429 || error?.status === 503);
 
       if (!retryable || attempt === attempts) {
         throw error;

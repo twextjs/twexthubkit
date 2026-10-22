@@ -83,7 +83,8 @@ export interface RequestOptions {
   timeoutMs?: number;
 }
 
-export interface TwextHubKitOptions extends RequestOptions {
+export interface TwextHubKitOptions {
+  timeoutMs?: number;
   baseUrl?: string | URL;
   token?: string | null;
   headers?: Record<string, string>;

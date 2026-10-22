@@ -1,7 +1,7 @@
 // Session sign-in and management. Signing in returns the token but does not
 // install it on the client; callers opt in with setToken().
 
-import { pickQuery, requestOptions } from '../paths.js';
+import { pathValue, pickQuery, requestOptions } from '../paths.js';
 
 export class SessionsResource {
   constructor(client) {
@@ -32,7 +32,7 @@ export class SessionsResource {
   }
 
   delete(id, options = {}) {
-    return this.client.request(`/sessions/${encodeURIComponent(id)}`, {
+    return this.client.request(`/sessions/${pathValue(id, 'session id')}`, {
       method: 'DELETE',
       responseType: 'none',
       ...requestOptions(options),

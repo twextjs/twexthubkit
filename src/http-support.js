@@ -33,31 +33,29 @@ export function combineSignals(signal, timeoutMs) {
 
   const controller = new AbortController();
   function abort(reason) {
+    signal.removeEventListener('abort', abortFromCaller);
+    timeoutSignal.removeEventListener('abort', abortFromTimeout);
     if (!controller.signal.aborted) {
       controller.abort(reason);
     }
   }
+  function abortFromCaller() {
+    abort(signal.reason);
+  }
+  function abortFromTimeout() {
+    abort(timeoutSignal.reason);
+  }
   if (signal.aborted) {
     abort(signal.reason);
   } else {
-    signal.addEventListener(
-      'abort',
-      function () {
-        abort(signal.reason);
-      },
-      { once: true },
-    );
+    signal.addEventListener('abort', abortFromCaller, { once: true });
   }
-  if (timeoutSignal.aborted) {
-    abort(timeoutSignal.reason);
-  } else {
-    timeoutSignal.addEventListener(
-      'abort',
-      function () {
-        abort(timeoutSignal.reason);
-      },
-      { once: true },
-    );
+  if (!controller.signal.aborted) {
+    if (timeoutSignal.aborted) {
+      abort(timeoutSignal.reason);
+    } else {
+      timeoutSignal.addEventListener('abort', abortFromTimeout, { once: true });
+    }
   }
   return controller.signal;
 }

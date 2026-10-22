@@ -1,7 +1,7 @@
 // Automation token management. The token secret appears only in the create
 // response, so it is returned untouched and never stored by the client.
 
-import { pickQuery, requestOptions } from '../paths.js';
+import { pathValue, pickQuery, requestOptions } from '../paths.js';
 
 export class TokensResource {
   constructor(client) {
@@ -28,7 +28,7 @@ export class TokensResource {
   }
 
   update(id, payload, options = {}) {
-    return this.client.request(`/tokens/${encodeURIComponent(id)}`, {
+    return this.client.request(`/tokens/${pathValue(id, 'token id')}`, {
       method: 'PATCH',
       json: { name: payload.name, scopes: payload.scopes },
       ...requestOptions(options),
@@ -36,7 +36,7 @@ export class TokensResource {
   }
 
   delete(id, options = {}) {
-    return this.client.request(`/tokens/${encodeURIComponent(id)}`, {
+    return this.client.request(`/tokens/${pathValue(id, 'token id')}`, {
       method: 'DELETE',
       responseType: 'none',
       ...requestOptions(options),

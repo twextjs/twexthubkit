@@ -16,14 +16,22 @@ export class NotificationsResource {
   }
 
   markRead(payload, options = {}) {
-    const body =
-      payload.all === true
-        ? { all: true }
-        : {
-            ids: payload.ids.map(function (id) {
-              return Number(id);
-            }),
-          };
+    let body;
+    if (payload.all === true) {
+      body = { all: true };
+    } else {
+      if (!Array.isArray(payload.ids)) {
+        throw new TypeError('notification ids must be an array of integers');
+      }
+      const ids = Array.from(payload.ids, function (id) {
+        const value = Number(id);
+        if (!Number.isInteger(value)) {
+          throw new TypeError('notification ids must be integers');
+        }
+        return value;
+      });
+      body = { ids };
+    }
     return this.client.request('/notifications', {
       method: 'PATCH',
       json: body,

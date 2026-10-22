@@ -48,7 +48,21 @@ export class HttpClient {
       url: this.buildUrl(path, options.query),
     };
     const response = await this.send(path, context);
-    return readResponse(response, context);
+    try {
+      return await readResponse(response, context);
+    } catch (error) {
+      if (error?.name === 'AbortError' || error?.name === 'TimeoutError') {
+        const timeoutMs =
+          options.timeoutMs === undefined ? this.timeoutMs : normalizeTimeout(options.timeoutMs);
+        const message = networkErrorMessage(error, context.url, timeoutMs);
+        throw new TwextHubNetworkError(message, {
+          method: context.method,
+          url: context.url,
+          cause: error,
+        });
+      }
+      throw error;
+    }
   }
 
   async raw(path, options = {}) {
@@ -60,7 +74,8 @@ export class HttpClient {
     const url = this.buildUrl(path, options.query);
     const headers = this.buildHeaders(options);
     const body = buildBody(options);
-    const timeoutMs = options.timeoutMs ?? this.timeoutMs;
+    const timeoutMs =
+      options.timeoutMs === undefined ? this.timeoutMs : normalizeTimeout(options.timeoutMs);
     const signal = combineSignals(options.signal, timeoutMs);
 
     let response;

@@ -81,7 +81,12 @@ function problemMessage(problem, response) {
 
 function parseRetryAfter(value) {
   if (!value) return undefined;
-  const seconds = Number.parseInt(value, 10);
-  if (!Number.isFinite(seconds) || seconds < 0) return undefined;
-  return seconds;
+  const trimmed = value.trim();
+  if (/^\d+$/.test(trimmed)) {
+    const seconds = Number(trimmed);
+    return Number.isFinite(seconds) ? seconds : undefined;
+  }
+  const date = Date.parse(trimmed);
+  if (!Number.isFinite(date)) return undefined;
+  return Math.max(0, (date - Date.now()) / 1000);
 }
