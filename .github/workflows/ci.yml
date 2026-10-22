@@ -64,5 +64,9 @@ jobs:
         run: npm ci
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
+      - name: Check product metadata
+        run: npm run product:check
+      - name: Check TypeScript types
+        run: npm run typecheck
       - name: Run unit tests
         run: npm test

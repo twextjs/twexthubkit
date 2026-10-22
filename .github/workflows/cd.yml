@@ -23,6 +23,15 @@ jobs:
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
+      - name: Validate release tag
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const { version } = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+          if (process.env.GITHUB_REF_NAME !== `v${version}`) {
+            throw new Error(`Release tag must be exactly v${version}`);
+          }
+          NODE
       - name: Install dependencies
         run: npm ci
       - name: Run linting
