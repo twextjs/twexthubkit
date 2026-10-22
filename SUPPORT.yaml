@@ -2,4 +2,4 @@
 
 lines:
   - version: '0.x'
-    stage: indev
+    stage: as
