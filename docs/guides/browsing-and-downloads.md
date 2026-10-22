@@ -15,11 +15,11 @@ This guide covers the read-only side of TwextHubKit: finding accounts and extens
   - [One extension](#one-extension)
   - [Versions and tags](#versions-and-tags)
 - [📄 Working with pages](#-working-with-pages)
-- [⬇️ Downloads](#-downloads)
-- [🖼️ Images and blobs](#-images-and-blobs)
+- [⬇️ Downloads](#️-downloads)
+- [🖼️ Images and blobs](#️-images-and-blobs)
 - [📰 Instance information](#-instance-information)
 - [🧯 When something is missing](#-when-something-is-missing)
-- [➡️ Next steps](#-next-steps)
+- [➡️ Next steps](#️-next-steps)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

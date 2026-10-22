@@ -12,7 +12,7 @@ TwextHub has two kinds of namespace: personal accounts and organizations. They s
   - [Update a profile](#update-a-profile)
   - [Change a password](#change-a-password)
   - [Delete an account](#delete-an-account)
-- [🖼️ Avatars and banners](#-avatars-and-banners)
+- [🖼️ Avatars and banners](#️-avatars-and-banners)
 - [🏢 Organizations](#-organizations)
   - [Create and update](#create-and-update)
   - [Owners](#owners)
@@ -23,7 +23,7 @@ TwextHub has two kinds of namespace: personal accounts and organizations. They s
 - [🚩 Reports](#-reports)
   - [See your reports](#see-your-reports)
 - [🔐 Who can do what](#-who-can-do-what)
-- [➡️ Next steps](#-next-steps)
+- [➡️ Next steps](#️-next-steps)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

@@ -10,13 +10,13 @@ This page takes you from installing TwextHubKit to making your first useful requ
 - [📦 Install](#-install)
 - [🧱 Create a client](#-create-a-client)
 - [👋 Your first request](#-your-first-request)
-- [🗂️ How methods are organized](#-how-methods-are-organized)
+- [🗂️ How methods are organized](#️-how-methods-are-organized)
 - [📄 Lists and pages](#-lists-and-pages)
-- [⬇️ Downloads](#-downloads)
-- [🛠️ Query objects and request options](#-query-objects-and-request-options)
+- [⬇️ Downloads](#️-downloads)
+- [🛠️ Query objects and request options](#️-query-objects-and-request-options)
 - [🧾 TypeScript](#-typescript)
 - [🚧 Common mistakes](#-common-mistakes)
-- [➡️ Next steps](#-next-steps)
+- [➡️ Next steps](#️-next-steps)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

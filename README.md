@@ -10,10 +10,10 @@ TwextHubKit makes it easy to browse and manage a TwextHub registry from JavaScri
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [🌟 Highlights](#-highlights)
-- [ℹ️ Overview](#-overview)
-  - [✍️ Authors](#-authors)
+- [ℹ️ Overview](#ℹ️-overview)
+  - [✍️ Authors](#️-authors)
 - [🚀 Usage](#-usage)
-- [⬇️ Installation](#-installation)
+- [⬇️ Installation](#️-installation)
 - [📚 Documentation](#-documentation)
 - [🔐 Authentication](#-authentication)
 - [🧭 Common tasks](#-common-tasks)

@@ -27,8 +27,8 @@ All three end with a bearer token. Once the client has it, every request include
   - [Manage tokens](#manage-tokens)
 - [🚪 Sessions and signing out](#-sessions-and-signing-out)
 - [📜 Accepting the terms](#-accepting-the-terms)
-- [🛡️ Keep tokens safe](#-keep-tokens-safe)
-- [➡️ Next steps](#-next-steps)
+- [🛡️ Keep tokens safe](#️-keep-tokens-safe)
+- [➡️ Next steps](#️-next-steps)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

@@ -9,7 +9,7 @@ If you are new to the package, start with [Getting started](./getting-started.md
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [🗺️ Documentation map](#-documentation-map)
+- [🗺️ Documentation map](#️-documentation-map)
 - [⚡ The short version](#-the-short-version)
 - [🧰 Requirements](#-requirements)
 - [💬 Need help?](#-need-help)

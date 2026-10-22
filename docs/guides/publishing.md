@@ -10,8 +10,8 @@ This guide covers the write side of an extension: uploading a version, moving ta
 - [✅ Before you publish](#-before-you-publish)
 - [📦 What publish returns](#-what-publish-returns)
 - [🧐 Reviewing and deprecating](#-reviewing-and-deprecating)
-- [🗑️ Yanking and deleting](#-yanking-and-deleting)
-- [🏷️ Dist-tags](#-dist-tags)
+- [🗑️ Yanking and deleting](#️-yanking-and-deleting)
+- [🏷️ Dist-tags](#️-dist-tags)
 - [👥 Co-owners](#-co-owners)
 - [🔁 Transfers](#-transfers)
 - [🪝 Webhooks](#-webhooks)
@@ -20,7 +20,7 @@ This guide covers the write side of an extension: uploading a version, moving ta
   - [Deliveries](#deliveries)
 - [🏢 Publishing for an organization](#-publishing-for-an-organization)
 - [🔐 Permissions in practice](#-permissions-in-practice)
-- [➡️ Next steps](#-next-steps)
+- [➡️ Next steps](#️-next-steps)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -208,8 +208,6 @@ const webhook = await th.extensions.webhooks.create('your-name', 'xterm', {
   events: ['version.published', 'version.yanked'],
   active: true,
 });
-
-console.log(webhook.secret); // shown only in this response
 ```
 
 Store the secret securely. It is used to verify that a delivery came from the instance.
