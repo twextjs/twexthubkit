@@ -3,6 +3,21 @@
 
 import { pathValue, pickQuery, requestOptions } from '../paths.js';
 
+// Number() alone would turn true into 1 and '' into 0, so the accepted types are
+// checked before conversion. Numbers and non-empty numeric strings only.
+function toNotificationId(id) {
+  const isNumber = typeof id === 'number';
+  const isNumericString = typeof id === 'string' && id.trim() !== '' && !Number.isNaN(Number(id));
+  if (!isNumber && !isNumericString) {
+    throw new TypeError('notification ids must be integers');
+  }
+  const value = Number(id);
+  if (!Number.isInteger(value)) {
+    throw new TypeError('notification ids must be integers');
+  }
+  return value;
+}
+
 export class NotificationsResource {
   constructor(client) {
     this.client = client;
@@ -23,13 +38,7 @@ export class NotificationsResource {
       if (!Array.isArray(payload.ids)) {
         throw new TypeError('notification ids must be an array of integers');
       }
-      const ids = Array.from(payload.ids, function (id) {
-        const value = Number(id);
-        if (!Number.isInteger(value)) {
-          throw new TypeError('notification ids must be integers');
-        }
-        return value;
-      });
+      const ids = Array.from(payload.ids, toNotificationId);
       body = { ids };
     }
     return this.client.request('/notifications', {

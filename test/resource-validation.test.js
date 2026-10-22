@@ -33,6 +33,10 @@ test.each([
   { ids: ['bad'] },
   { ids: [1.5] },
   { ids: [Infinity] },
+  { ids: [true] },
+  { ids: [false] },
+  { ids: [''] },
+  { ids: ['   '] },
   { ids: Array(1) },
 ])('markRead rejects invalid IDs: %j', function (payload) {
   const fetch = vi.fn();
